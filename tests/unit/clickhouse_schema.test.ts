@@ -1,0 +1,188 @@
+import { ClickhouseSchema, type ChSchemaOptions } from '@clickhouse-schema-core/clickhouse_schema'
+import { ClickhouseTypes } from '@clickhouse-schema-data-types/index'
+
+describe('ClickhouseSchema Tests', () => {
+  it('should correctly store schema definitions and options', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String },
+      email: { type: ClickhouseTypes.String },
+      age: { type: ClickhouseTypes.UInt8 }
+    }
+    const options: ChSchemaOptions = {
+      primary_key: 'id',
+      table_name: 'users_table'
+    }
+
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+
+    expect(schema.GetOptions()).toEqual(options)
+  })
+
+  it('should correctly throw an error if schema is missing both primary_key and order_by fields', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String },
+      email: { type: ClickhouseTypes.String },
+      age: { type: ClickhouseTypes.UInt8 }
+    }
+    const options: ChSchemaOptions = {
+      table_name: 'users_table'
+    }
+
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedError = 'One of order_by or primary_key must be specified'
+    expect(() => schema.GetCreateTableQuery()).toThrow(expectedError)
+  })
+
+  it('should correctly generate a create table query without a default value for any fields', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String },
+      email: { type: ClickhouseTypes.String },
+      age: { type: ClickhouseTypes.UInt8 }
+    }
+    const options: ChSchemaOptions = {
+      primary_key: 'id',
+      table_name: 'users_table'
+    }
+
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String,\nemail String,\nage UInt8\n)\nENGINE = MergeTree()\nPRIMARY KEY id'
+    const query = schema.GetCreateTableQuery()
+    expect(query).toEqual(expectedQuery)
+  })
+
+  it('should correctly generate a create table query with a default value for some fields', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String, default: 'John Doe' },
+      email: { type: ClickhouseTypes.String, default: 'john@gmail.com' },
+      age: { type: ClickhouseTypes.UInt8 }
+    }
+    const options: ChSchemaOptions = {
+      primary_key: 'id',
+      table_name: 'users_table'
+    }
+
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String DEFAULT \'john@gmail.com\',\nage UInt8\n)\nENGINE = MergeTree()\nPRIMARY KEY id'
+    const query = schema.GetCreateTableQuery()
+    expect(query).toEqual(expectedQuery)
+  })
+
+  it('should correctly generate a create table query with additional options', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String, default: 'John Doe' },
+      email: { type: ClickhouseTypes.String, default: 'john@gmail.com' },
+      age: { type: ClickhouseTypes.UInt8, default: 18 }
+    }
+    const options: ChSchemaOptions = {
+      primary_key: 'id',
+      table_name: 'users_table',
+      additional_options: ['COMMENT \'This table provides user details\'']
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String DEFAULT \'john@gmail.com\',\nage UInt8 DEFAULT 18\n)\nENGINE = MergeTree()\nPRIMARY KEY id\nCOMMENT \'This table provides user details\''
+    const query = schema.GetCreateTableQuery()
+    expect(query).toEqual(expectedQuery)
+  })
+
+  it('should correctly generate a create table query with a specified order_by field', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String, default: 'John Doe' },
+      email: { type: ClickhouseTypes.String }
+    }
+    const options: ChSchemaOptions = {
+      table_name: 'users_table',
+      order_by: 'id'
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nORDER BY id'
+    const query = schema.GetCreateTableQuery()
+    expect(query).toEqual(expectedQuery)
+  })
+
+  it('should correctly generate a create table query with a specified on_cluster field', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String, default: 'John Doe' },
+      email: { type: ClickhouseTypes.String }
+    }
+    const options: ChSchemaOptions = {
+      table_name: 'users_table',
+      primary_key: 'id',
+      on_cluster: 'users_cluster'
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nPRIMARY KEY id'
+    const query = schema.GetCreateTableQuery()
+    expect(query).toEqual(expectedQuery)
+  })
+
+  it('should correctly generate a create table query with a specified engine', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String, default: 'John Doe' },
+      email: { type: ClickhouseTypes.String }
+    }
+    const options: ChSchemaOptions = {
+      table_name: 'users_table',
+      primary_key: 'id',
+      engine: 'ReplicatedMergeTree()'
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = ReplicatedMergeTree()\nPRIMARY KEY id'
+    const query = schema.GetCreateTableQuery()
+    expect(query).toEqual(expectedQuery)
+  })
+
+  it('should correctly generate a create table query with a specified database', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String, default: 'John Doe' },
+      email: { type: ClickhouseTypes.String }
+    }
+    const options: ChSchemaOptions = {
+      database: 'users_db',
+      table_name: 'users_table',
+      primary_key: 'id'
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_db.users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nPRIMARY KEY id'
+    const query = schema.GetCreateTableQuery()
+    expect(query).toEqual(expectedQuery)
+  })
+
+  it('should correctly generate a create table query list', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.UUID },
+      name: { type: ClickhouseTypes.String, default: 'John Doe' },
+      email: { type: ClickhouseTypes.String }
+    }
+    const options: ChSchemaOptions = {
+      table_name: 'users_table',
+      primary_key: 'id',
+      on_cluster: 'users_cluster',
+      order_by: 'id',
+      additional_options: ['COMMENT \'This table provides user details\'']
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = [
+      'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster',
+      '(',
+      'id UUID,',
+      "name String DEFAULT 'John Doe',",
+      'email String',
+      ')',
+      'ENGINE = MergeTree()',
+      'ORDER BY id',
+      'PRIMARY KEY id',
+      'COMMENT \'This table provides user details\''
+    ]
+    const query = schema.GetCreateTableQueryAsList()
+    expect(query).toEqual(expectedQuery)
+  })
+})

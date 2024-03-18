@@ -1,0 +1,28 @@
+{
+  "author": "Rohit Kadhe",
+  "license": "MIT",
+  "name": "clickhouse-schema",
+  "description": "Clickhouse-Schema is a TypeScript library that simplifies working with ClickHouse databases by allowing developers to effortlessly define table schemas in TypeScript. This approach not only ensures robust type safety but also significantly reduces development time by automating the generation of TypeScript types that mirror your ClickHouse schemas.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.28",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "eslint": "^8.57.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-unused-imports": "^3.1.0",
+    "http": "^0.0.1-security",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.8",
+    "typescript": "^4.5.4"
+  }
+}
