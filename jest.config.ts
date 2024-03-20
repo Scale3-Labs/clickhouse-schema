@@ -25,7 +25,7 @@ const config: Config = {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: 'tests/coverage',
+  coverageDirectory: 'tests/unit/coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -40,6 +40,7 @@ const config: Config = {
     'json',
     'text',
     'lcov',
+    'text-summary',
     'clover'
   ],
 
