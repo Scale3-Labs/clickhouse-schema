@@ -8,9 +8,11 @@ import { ChUInt8, ChUInt16, ChUInt32, ChUInt64, ChInt8, ChInt16 } from '@clickho
 import { ChJSON } from '@clickhouse-schema-data-types/ch_json'
 import { ChString, ChFixedString } from '@clickhouse-schema-data-types/ch_string'
 import { ChUUID } from '@clickhouse-schema-data-types/ch_uuid'
+import { ChNullable } from '@clickhouse-schema-data-types/ch_nullable'
 
 export interface ChDataType {
   typeStr: string
+  dataTypeMarker: string
   toString: () => string
 }
 
@@ -33,7 +35,8 @@ export const ClickhouseTypes = {
   FixedString: <T extends number>(length: T) => new ChFixedString(length),
   JSON: <T extends Record<string, SchemaValue>>(schema: T) => new ChJSON(schema),
   Array: <T extends ChDataType>(t: T) => new ChArray(t),
-  Enum: <T extends Record<string, number>>(enumObj: T) => new ChEnum(enumObj)
+  Enum: <T extends Record<string, number>>(enumObj: T) => new ChEnum(enumObj),
+  Nullable: <T extends ChPrimitiveType>(type: T) => new ChNullable(type)
 }
 
 export interface MapChSchemaTypes {
@@ -56,3 +59,10 @@ export interface MapChSchemaTypes {
   DateTime64: Date
   FixedString: string
 }
+
+export type ChPrimitiveType =
+ChBoolean | ChUInt8 | ChUInt16 | ChUInt32 | ChUInt64 | ChInt8 | ChInt16 |
+ChFloat32 | ChFloat64 | ChString | ChUUID | ChDate | ChDate32 | ChDateTime<string> |
+ChDateTime64<number, string> | ChFixedString<number>
+
+export type ChCompositeType = ChArray<ChArray<ChDataType> | ChDataType> | ChEnum<Record<string, number>> | ChNullable<ChPrimitiveType>

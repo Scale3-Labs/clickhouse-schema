@@ -90,4 +90,9 @@ describe('Data Types Tests', () => {
     const enumType = new ChEnum({ POST: 1, PUT: 2, DELETE: 3, GET: 4 })
     expect(enumType.toString()).toEqual('Enum(\'POST\' = 1,\'PUT\' = 2,\'DELETE\' = 3,\'GET\' = 4)')
   })
+
+  it('should correctly create a nullable data types with the correct typeStr', () => {
+    const nullableString = ClickhouseTypes.Nullable(ClickhouseTypes.String)
+    expect(nullableString.toString()).toEqual('Nullable(String)')
+  })
 })
