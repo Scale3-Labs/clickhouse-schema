@@ -11,7 +11,7 @@ const requestFieldsTable = new ClickhouseSchema({
   status_code: { type: ClickhouseTypes.UInt32 },
   url: { type: ClickhouseTypes.String },
   request_method: { type: ClickhouseTypes.Enum({ GET: 0, POST: 1, PUT: 2, DELETE: 3 }) },
-  request_time: { type: ClickhouseTypes.DateTime('UTC') }
+  request_time: { type: ClickhouseTypes.Nullable(ClickhouseTypes.DateTime('UTC')) }
 }, { table_name: 'request_data', primary_key: 'id' })
 
 type RequestFields = InferClickhouseSchemaType<typeof requestFieldsTable>

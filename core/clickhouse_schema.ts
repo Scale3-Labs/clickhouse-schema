@@ -28,12 +28,14 @@ interface IClickhouseSchema {
   GetCreateTableQueryAsList: () => string[]
 }
 
+export type ChSchemaDefinition = Record<string, SchemaValue>
+
 /* This class is used to represent a clickhouse table schema */
-export class ClickhouseSchema<ChSchema> implements IClickhouseSchema {
-  readonly schema: ChSchema
+export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> implements IClickhouseSchema {
+  readonly schema: SchemaDefinition
   private readonly options: ChSchemaOptions
 
-  constructor (schema: ChSchema, options: ChSchemaOptions) {
+  constructor (schema: SchemaDefinition, options: ChSchemaOptions) {
     this.schema = schema
     this.options = options
   }

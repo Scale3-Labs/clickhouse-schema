@@ -1,20 +1,21 @@
 import { type ChDataType } from '@clickhouse-schema-data-types/index'
 
 export class ChArray<T extends ChDataType | ChArray<ChDataType>> implements ChDataType {
-  readonly dataType: T
+  readonly innerType: T
   readonly typeStr: string
+  readonly dataTypeMarker = 'Array' as const
 
   constructor (t: T) {
     if (t instanceof ChArray) {
-      this.dataType = new ChArray(t.dataType) as T
+      this.innerType = new ChArray(t.innerType) as T
     } else {
-      this.dataType = t
+      this.innerType = t
     }
     this.typeStr = this.toString()
   }
 
   toString (): string {
-    if (this.dataType instanceof ChArray) return `Array(${this.dataType.toString()})`
-    return `Array(${this.dataType})`
+    if (this.innerType instanceof ChArray) return `Array(${this.innerType.toString()})`
+    return `Array(${this.innerType})`
   }
 }
