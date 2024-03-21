@@ -15,6 +15,7 @@ const requestFieldsTable = new ClickhouseSchema({
 }, { table_name: 'request_data', primary_key: 'id' })
 
 type RequestFields = InferClickhouseSchemaType<typeof requestFieldsTable>
+
 const server = http.createServer((req, res) => {
   if (req.url === '/schema/query') {
     const createTableQuery = requestFieldsTable.GetCreateTableQuery()
