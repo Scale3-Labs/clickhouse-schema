@@ -1,19 +1,102 @@
-# ClickHouse-Schema
+# ClickHouse-Schema Guide
 
-Clickhouse-Schema is a TypeScript library that simplifies working with ClickHouse databases by allowing developers to effortlessly define table schemas in TypeScript. This approach not only ensures robust type safety but also significantly reduces development time by automating the generation of TypeScript types that mirror your ClickHouse schemas.
+In ClickHouse, defining and managing table schemas and their associated types can be done either manually or through the ClickHouse-Schema library. This guide compares these two approaches to illustrate the simplicity and efficiency ClickHouse-Schema brings to your projects.
 
-## Key Benefits
+## Traditional Manual Query Approach
 
-- **Effortless TypeScript Integration**: Instantly define your ClickHouse table schemas within TypeScript, leveraging the full power of type safety without the hassle.
-- **Time-Saving Type Generation**: Say goodbye to manually creating TypeScript types for your database tables. Clickhouse-Schema does it for you, automatically generating accurate types from your schema definitions.
-- **Simplified Database Management**: Easily translate your TypeScript schema definition into a create table ClickHouse SQL query.
-- **Comprehensive Data Type Support**: Utilize ClickHouse's extensive data type system, including complex types like JSON, arrays, enums, and more, right from your TypeScript code.
+Traditionally, creating a table in clickhouse requires manually writing the SQL query and the interface in your code. This method is straightforward but prone to errors and inconsistencies, especially when schema changes occur.
+
+### Create Table Query
+
+```sql
+CREATE TABLE IF NOT EXISTS students
+(
+    id UInt32,
+    name String,
+    height float32,
+    age UInt8,
+    weight Float64,,
+    isStudent Boolean
+)
+# Manually defined
+interface StudentsTableTypeManuallyDefined {
+  id: number,
+  name: string,
+  age: number,
+  height: number,
+  weight: number,
+  isStudent: boolean
+}
+```
+
+**Did you notice any errors with the code below?**  These would not get caught till runtime
+
+## Using ClickHouse-Schema
+
+ClickHouse-Schema automates schema creation and ensures type safety with minimal code, providing a more robust and maintainable solution.
+
+### Defining Schema
+
+``` typescript
+const studentsTableSchema = new ClickhouseSchema({
+  id: { type: CHUInt32 },
+  name: { type: CHString },
+  age: { type: CHUInt8 },
+  height: { type: CHFloat32 },
+  weight: { type: CHFloat64 },
+  isStudent: { type: CHBoolean }
+}, {
+  table_name: 'students',
+  primary_key: 'id'
+})
+
+//Automatic type inference. If schema changes type automatically changes too
+type StudentsTableType = InferClickhouseSchemaType<typeof studentsTableSchema>
+```
 
 ## Getting Started
 
-### Installation
+To start using ClickHouse-Schema in your projects, follow these steps:
 
-```bash
-npm install clickhouse-schema
-# or
-yarn add clickhouse-schema
+1. **Installation**
+   To install ClickHouse-Schema, run the following command in your terminal:
+
+   ```bash
+   npm install clickhouse-schema
+   ```
+
+2. **Create a Schema**
+
+    Define your table schema and provide options such as the table name and primary key. This will enable automatic type inference, making your code more robust and maintainable.
+
+    ``` typescript
+    import { CHString, CHUUID, type InferClickhouseSchemaType } from '@clickhouse-schema'
+    const myTable = new ClickhouseSchema({
+      id: { type: CHUUID },
+      name: { type: CHString }
+      // Add more columns as needed
+    }, { table_name: 'my_table', primary_key: 'id' })
+
+    type MyTableType = InferClickhouseSchemaType<typeof myTable>
+    ```
+
+3. **Utilize Schema Methods**
+    ClickHouse-Schema provides several methods to streamline working with your database schema:
+
+    - Use `<your_schema>.GetCreateTableQuery()` to generate the SQL `CREATE TABLE` query.
+    - Use `<your_schema>.GetOptions()` to access the options passed when creating the table schema.
+    - Use `<your_schema>.GetCreateTableQueryAsList()` to get the `CREATE TABLE` query as a list of strings, which can be helpful for debugging or logging.
+
+## Supported Types
+
+- Integer (signed and unsigned integers): `UInt8, UInt16, UInt32, UInt64, UInt128, UInt256, Int8, Int16, Int32, Int64, Int128, Int256` types
+- Floating-point numbers: `Float32` and `Float64` types
+- Boolean: `Boolean` type
+- Strings: `String` and `FixedString` types
+- Dates: `Date`, `Date32`, `DateTime` and `DateTime64` types
+- JSON: `JSON` type
+- UUID: `UUID` type
+- Arrays: `Array` type
+- Nullable: `Nullable` type
+
+And support for more types is coming!

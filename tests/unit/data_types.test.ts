@@ -3,7 +3,7 @@ import { ChBoolean } from '@clickhouse-schema-data-types/ch_boolean'
 import { ChDate, ChDate32, ChDateTime, ChDateTime64 } from '@clickhouse-schema-data-types/ch_date'
 import { ChEnum } from '@clickhouse-schema-data-types/ch_enum'
 import { ChFloat32, ChFloat64 } from '@clickhouse-schema-data-types/ch_float'
-import { ChUInt8, ChUInt16, ChUInt32, ChUInt64, ChInt8, ChInt16 } from '@clickhouse-schema-data-types/ch_integer'
+import { ChUInt8, ChUInt16, ChUInt32, ChUInt64, ChInt8, ChInt16, ChInt128, ChInt256, ChInt32, ChInt64, ChUInt128, ChUInt256 } from '@clickhouse-schema-data-types/ch_integer'
 import { ChJSON } from '@clickhouse-schema-data-types/ch_json'
 import { ChFixedString, ChString } from '@clickhouse-schema-data-types/ch_string'
 import { ChUUID } from '@clickhouse-schema-data-types/ch_uuid'
@@ -15,16 +15,29 @@ describe('Data Types Tests', () => {
     const uint16 = new ChUInt16()
     const uint32 = new ChUInt32()
     const uint64 = new ChUInt64()
+    const uint128 = new ChUInt128()
+    const uint256 = new ChUInt256()
     const int8 = new ChInt8()
     const int16 = new ChInt16()
+    const int32 = new ChInt32()
+    const int64 = new ChInt64()
+    const int128 = new ChInt128()
+    const int256 = new ChInt256()
 
     expect(uint8.toString()).toEqual('UInt8')
     expect(uint16.toString()).toEqual('UInt16')
     expect(uint32.toString()).toEqual('UInt32')
+    expect(uint64.toString()).toEqual('UInt64')
+    expect(uint128.toString()).toEqual('UInt128')
+    expect(uint256.toString()).toEqual('UInt256')
 
     expect(uint64.toString()).toEqual('UInt64')
     expect(int8.toString()).toEqual('Int8')
     expect(int16.toString()).toEqual('Int16')
+    expect(int32.toString()).toEqual('Int32')
+    expect(int64.toString()).toEqual('Int64')
+    expect(int128.toString()).toEqual('Int128')
+    expect(int256.toString()).toEqual('Int256')
   })
 
   it('should correctly create float data types with the correct typeStr', () => {
@@ -76,12 +89,12 @@ describe('Data Types Tests', () => {
 
   it('should correctly create a json data types with the correct typeStr', () => {
     const json = new ChJSON({
-      dateTime64: { type: ClickhouseTypes.DateTime64(3, 'UTC') },
-      dateTime: { type: ClickhouseTypes.DateTime('UTC') },
-      enum: { type: ClickhouseTypes.Enum({ POST: 1, PUT: 2, DELETE: 3, GET: 4 }) },
-      array: { type: ClickhouseTypes.Array(ClickhouseTypes.String) },
-      fixedString: { type: ClickhouseTypes.FixedString(10) },
-      json: { type: ClickhouseTypes.JSON({ k: { type: ClickhouseTypes.String } }) }
+      dateTime64: { type: ClickhouseTypes.CHDateTime64(3, 'UTC') },
+      dateTime: { type: ClickhouseTypes.CHDateTime('UTC') },
+      enum: { type: ClickhouseTypes.CHEnum({ POST: 1, PUT: 2, DELETE: 3, GET: 4 }) },
+      array: { type: ClickhouseTypes.CHArray(ClickhouseTypes.CHString) },
+      fixedString: { type: ClickhouseTypes.CHFixedString(10) },
+      json: { type: ClickhouseTypes.CHJSON({ k: { type: ClickhouseTypes.CHString } }) }
     })
     expect(json.toString()).toEqual('JSON')
   })
@@ -92,7 +105,7 @@ describe('Data Types Tests', () => {
   })
 
   it('should correctly create a nullable data types with the correct typeStr', () => {
-    const nullableString = ClickhouseTypes.Nullable(ClickhouseTypes.String)
+    const nullableString = ClickhouseTypes.CHNullable(ClickhouseTypes.CHString)
     expect(nullableString.toString()).toEqual('Nullable(String)')
   })
 })
