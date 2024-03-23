@@ -12,18 +12,18 @@ export interface SchemaValue { type: ChDataType, default?: unknown } // Note tha
  * @param engine is the engine to use for the table, default is MergeTree()
  * @param additional_options is an string array of options that are appended to the end of the create table query
  */
-export interface ChSchemaOptions<T extends ChSchemaDefinition> {
+export interface ChSchemaOptions {
   database?: string
   table_name: string
   on_cluster?: string
-  primary_key?: keyof T
-  order_by?: keyof T
+  primary_key?: string
+  order_by?: string
   engine?: string
   additional_options?: string[]
 }
 
-interface IClickhouseSchema<T extends ChSchemaDefinition> {
-  GetOptions: () => ChSchemaOptions<T>
+interface IClickhouseSchema {
+  GetOptions: () => ChSchemaOptions
   GetCreateTableQuery: () => string
   GetCreateTableQueryAsList: () => string[]
 }
@@ -31,16 +31,16 @@ interface IClickhouseSchema<T extends ChSchemaDefinition> {
 export type ChSchemaDefinition = Record<string, SchemaValue>
 
 /* This class is used to represent a clickhouse table schema */
-export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> implements IClickhouseSchema<SchemaDefinition> {
+export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> implements IClickhouseSchema {
   readonly schema: SchemaDefinition
-  private readonly options: ChSchemaOptions<SchemaDefinition>
+  private readonly options: ChSchemaOptions
 
-  constructor (schema: SchemaDefinition, options: ChSchemaOptions<SchemaDefinition>) {
+  constructor (schema: SchemaDefinition, options: ChSchemaOptions) {
     this.schema = schema
     this.options = options
   }
 
-  GetOptions (): ChSchemaOptions<SchemaDefinition> {
+  GetOptions (): ChSchemaOptions {
     return this.options
   }
 
@@ -68,8 +68,8 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
       `CREATE TABLE IF NOT EXISTS ${this.options.database !== undefined ? `${this.options.database}.` : ''}${this.options.table_name}${this.options.on_cluster !== undefined ? ` ON CLUSTER ${this.options.on_cluster}` : ''}`,
       `(\n${columns}\n)`,
       `ENGINE = ${this.options.engine ?? 'MergeTree()'}`,
-      this.options.order_by !== undefined ? `ORDER BY ${String(this.options.order_by)}` : '',
-      this.options.primary_key !== undefined ? `PRIMARY KEY ${String(this.options.primary_key)}` : '',
+      this.options.order_by !== undefined ? `ORDER BY ${this.options.order_by}` : '',
+      this.options.primary_key !== undefined ? `PRIMARY KEY ${this.options.primary_key}` : '',
       additionalOptions
     ].filter(part => part.trim().length > 0).join('\n')
 

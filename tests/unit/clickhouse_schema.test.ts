@@ -9,7 +9,7 @@ describe('ClickhouseSchema Tests', () => {
       email: { type: ClickhouseTypes.CHString },
       age: { type: ClickhouseTypes.CHUInt8 }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       primary_key: 'id',
       table_name: 'users_table'
     }
@@ -26,7 +26,7 @@ describe('ClickhouseSchema Tests', () => {
       email: { type: ClickhouseTypes.CHString },
       age: { type: ClickhouseTypes.CHUInt8 }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       table_name: 'users_table'
     }
 
@@ -42,7 +42,7 @@ describe('ClickhouseSchema Tests', () => {
       email: { type: ClickhouseTypes.CHString },
       age: { type: ClickhouseTypes.CHUInt8 }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       primary_key: 'id',
       table_name: 'users_table'
     }
@@ -60,7 +60,7 @@ describe('ClickhouseSchema Tests', () => {
       email: { type: ClickhouseTypes.CHString, default: 'john@gmail.com' },
       age: { type: ClickhouseTypes.CHUInt8 }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       primary_key: 'id',
       table_name: 'users_table'
     }
@@ -78,7 +78,7 @@ describe('ClickhouseSchema Tests', () => {
       email: { type: ClickhouseTypes.CHString, default: 'john@gmail.com' },
       age: { type: ClickhouseTypes.CHUInt8, default: 18 }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       primary_key: 'id',
       table_name: 'users_table',
       additional_options: ['COMMENT \'This table provides user details\'']
@@ -95,7 +95,7 @@ describe('ClickhouseSchema Tests', () => {
       name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
       email: { type: ClickhouseTypes.CHString }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       table_name: 'users_table',
       order_by: 'id'
     }
@@ -111,7 +111,7 @@ describe('ClickhouseSchema Tests', () => {
       name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
       email: { type: ClickhouseTypes.CHString }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       table_name: 'users_table',
       primary_key: 'id',
       on_cluster: 'users_cluster'
@@ -123,18 +123,19 @@ describe('ClickhouseSchema Tests', () => {
   })
 
   it('should correctly generate a create table query with a specified engine', () => {
-    const schema = new ClickhouseSchema({
+    const schemaDefinition = {
       id: { type: ClickhouseTypes.CHUUID },
       name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
       email: { type: ClickhouseTypes.CHString }
-    }, {
+    }
+    const options: ChSchemaOptions = {
       table_name: 'users_table',
       primary_key: 'id',
       engine: 'ReplicatedMergeTree()'
-    })
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
     const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = ReplicatedMergeTree()\nPRIMARY KEY id'
     const query = schema.GetCreateTableQuery()
-    console.log(query)
     expect(query).toEqual(expectedQuery)
   })
 
@@ -144,7 +145,7 @@ describe('ClickhouseSchema Tests', () => {
       name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
       email: { type: ClickhouseTypes.CHString }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       database: 'users_db',
       table_name: 'users_table',
       primary_key: 'id'
@@ -161,7 +162,7 @@ describe('ClickhouseSchema Tests', () => {
       name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
       email: { type: ClickhouseTypes.CHString }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       table_name: 'users_table',
       primary_key: 'id',
       on_cluster: 'users_cluster',
@@ -191,7 +192,7 @@ describe('ClickhouseSchema Tests', () => {
       name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
       email: { type: ClickhouseTypes.CHString }
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
+    const options: ChSchemaOptions = {
       table_name: 'users_table',
       primary_key: 'id',
       on_cluster: 'users_cluster',
