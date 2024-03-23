@@ -4,10 +4,10 @@ import { ClickhouseTypes } from '@clickhouse-schema-data-types/index'
 describe('ClickhouseSchema Tests', () => {
   it('should correctly store schema definitions and options', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String },
-      email: { type: ClickhouseTypes.String },
-      age: { type: ClickhouseTypes.UInt8 }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString },
+      email: { type: ClickhouseTypes.CHString },
+      age: { type: ClickhouseTypes.CHUInt8 }
     }
     const options: ChSchemaOptions = {
       primary_key: 'id',
@@ -21,10 +21,10 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly throw an error if schema is missing both primary_key and order_by fields', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String },
-      email: { type: ClickhouseTypes.String },
-      age: { type: ClickhouseTypes.UInt8 }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString },
+      email: { type: ClickhouseTypes.CHString },
+      age: { type: ClickhouseTypes.CHUInt8 }
     }
     const options: ChSchemaOptions = {
       table_name: 'users_table'
@@ -37,10 +37,10 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly generate a create table query without a default value for any fields', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String },
-      email: { type: ClickhouseTypes.String },
-      age: { type: ClickhouseTypes.UInt8 }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString },
+      email: { type: ClickhouseTypes.CHString },
+      age: { type: ClickhouseTypes.CHUInt8 }
     }
     const options: ChSchemaOptions = {
       primary_key: 'id',
@@ -55,10 +55,10 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly generate a create table query with a default value for some fields', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String, default: 'John Doe' },
-      email: { type: ClickhouseTypes.String, default: 'john@gmail.com' },
-      age: { type: ClickhouseTypes.UInt8 }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString, default: 'john@gmail.com' },
+      age: { type: ClickhouseTypes.CHUInt8 }
     }
     const options: ChSchemaOptions = {
       primary_key: 'id',
@@ -73,10 +73,10 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly generate a create table query with additional options', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String, default: 'John Doe' },
-      email: { type: ClickhouseTypes.String, default: 'john@gmail.com' },
-      age: { type: ClickhouseTypes.UInt8, default: 18 }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString, default: 'john@gmail.com' },
+      age: { type: ClickhouseTypes.CHUInt8, default: 18 }
     }
     const options: ChSchemaOptions = {
       primary_key: 'id',
@@ -91,9 +91,9 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly generate a create table query with a specified order_by field', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String, default: 'John Doe' },
-      email: { type: ClickhouseTypes.String }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString }
     }
     const options: ChSchemaOptions = {
       table_name: 'users_table',
@@ -107,9 +107,9 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly generate a create table query with a specified on_cluster field', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String, default: 'John Doe' },
-      email: { type: ClickhouseTypes.String }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString }
     }
     const options: ChSchemaOptions = {
       table_name: 'users_table',
@@ -124,9 +124,9 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly generate a create table query with a specified engine', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String, default: 'John Doe' },
-      email: { type: ClickhouseTypes.String }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString }
     }
     const options: ChSchemaOptions = {
       table_name: 'users_table',
@@ -141,9 +141,9 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly generate a create table query with a specified database', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String, default: 'John Doe' },
-      email: { type: ClickhouseTypes.String }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString }
     }
     const options: ChSchemaOptions = {
       database: 'users_db',
@@ -158,9 +158,9 @@ describe('ClickhouseSchema Tests', () => {
 
   it('should correctly generate a create table query list', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.UUID },
-      name: { type: ClickhouseTypes.String, default: 'John Doe' },
-      email: { type: ClickhouseTypes.String }
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString }
     }
     const options: ChSchemaOptions = {
       table_name: 'users_table',
@@ -183,6 +183,26 @@ describe('ClickhouseSchema Tests', () => {
       'COMMENT \'This table provides user details\''
     ]
     const query = schema.GetCreateTableQueryAsList()
+    expect(query).toEqual(expectedQuery)
+  })
+
+  it('should generate a create table query when to string is called', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString }
+    }
+    const options: ChSchemaOptions = {
+      table_name: 'users_table',
+      primary_key: 'id',
+      on_cluster: 'users_cluster',
+      order_by: 'id',
+      additional_options: ['COMMENT \'This table provides user details\'']
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nORDER BY id\nPRIMARY KEY id\nCOMMENT \'This table provides user details\''
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
+    const query = schema.toString()
     expect(query).toEqual(expectedQuery)
   })
 })

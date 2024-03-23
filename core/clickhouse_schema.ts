@@ -49,7 +49,7 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
       throw new Error('One of order_by or primary_key must be specified')
     }
 
-    const columns = Object.entries(this.schema as Record<string, SchemaValue>)
+    const columns = Object.entries(this.schema as ChSchemaDefinition)
       .map(([name, field]) => {
         // Check if default is defined and a string, add single quotes; otherwise, just use the value
         const defaultValue = field.default !== undefined
@@ -78,5 +78,9 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
 
   GetCreateTableQueryAsList (): string[] {
     return this.GetCreateTableQuery().split('\n')
+  }
+
+  toString (): string {
+    return this.GetCreateTableQuery()
   }
 }
