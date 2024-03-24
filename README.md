@@ -91,6 +91,7 @@ To start using ClickHouse-Schema in your projects, follow these steps:
 
 - Integer (signed and unsigned integers): `UInt8, UInt16, UInt32, UInt64, UInt128, UInt256, Int8, Int16, Int32, Int64, Int128, Int256` types
 - Floating-point numbers: `Float32` and `Float64` types
+- Decimal - `Decimal` type
 - Boolean: `Boolean` type
 - Strings: `String` and `FixedString` types
 - Dates: `Date`, `Date32`, `DateTime` and `DateTime64` types

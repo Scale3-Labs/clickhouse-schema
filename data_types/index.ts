@@ -9,6 +9,7 @@ import { ChJSON } from '@clickhouse-schema-data-types/ch_json'
 import { ChString, ChFixedString } from '@clickhouse-schema-data-types/ch_string'
 import { ChUUID } from '@clickhouse-schema-data-types/ch_uuid'
 import { ChNullable } from '@clickhouse-schema-data-types/ch_nullable'
+import { ChDecimal } from '@clickhouse-schema-data-types/ch_decimal'
 
 export interface ChDataType {
   typeStr: string
@@ -34,6 +35,8 @@ export const CHInt256 = new ChInt256()
 // Float types
 export const CHFloat32 = new ChFloat32()
 export const CHFloat64 = new ChFloat64()
+// Decimal type
+export const CHDecimal = <P extends number, S extends number>(precision: P, scale: S): ChDecimal<P, S> => new ChDecimal(precision, scale)
 // Boolean type
 export const CHBoolean = new ChBoolean()
 // String types
@@ -67,6 +70,7 @@ export const ClickhouseTypes = {
   CHInt256,
   CHFloat32,
   CHFloat64,
+  CHDecimal,
   CHBoolean,
   CHString,
   CHUUID,
@@ -95,6 +99,7 @@ export interface MapChSchemaTypes {
   Int256: number
   Float32: number
   Float64: number
+  Decimal: number
   Boolean: boolean
   String: string
   UUID: string
@@ -108,7 +113,7 @@ export interface MapChSchemaTypes {
 export type ChPrimitiveType =
 ChUInt8 | ChUInt16 | ChUInt32 | ChUInt64 | ChUInt128 | ChUInt256 |
 ChInt8 | ChInt16 | ChInt32 | ChInt64 | ChInt128 | ChInt256 |
-ChFloat32 | ChFloat64 | ChBoolean |
+ChFloat32 | ChFloat64 | ChDecimal<number, number> | ChBoolean |
 ChDate | ChDate32 | ChDateTime<string> | ChDateTime64<number, string> |
 ChUUID | ChFixedString<number> | ChString
 

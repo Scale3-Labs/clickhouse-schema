@@ -8,7 +8,8 @@ describe('ClickhouseSchema Tests', () => {
       id: { type: ClickhouseTypes.CHUUID },
       name: { type: ClickhouseTypes.CHString },
       email: { type: ClickhouseTypes.CHString },
-      age: { type: ClickhouseTypes.CHUInt8 }
+      age: { type: ClickhouseTypes.CHUInt8 },
+      score: { type: ClickhouseTypes.CHDecimal(10, 2) }
     }
     const options: ChSchemaOptions<typeof schemaDefinition> = {
       primary_key: 'id',

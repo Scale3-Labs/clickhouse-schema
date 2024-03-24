@@ -108,4 +108,9 @@ describe('Data Types Tests', () => {
     const nullableString = ClickhouseTypes.CHNullable(ClickhouseTypes.CHString)
     expect(nullableString.toString()).toEqual('Nullable(String)')
   })
+
+  it('should correctly create a decimal data types with the correct typeStr', () => {
+    const decimal = ClickhouseTypes.CHDecimal(10, 2)
+    expect(decimal.toString()).toEqual('Decimal(10,2)')
+  })
 })
