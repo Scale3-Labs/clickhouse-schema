@@ -52,7 +52,6 @@ export const CHArray = <T extends ChDataType>(t: T): ChArray<T> => new ChArray(t
 export const CHEnum = <T extends Record<string, number>>(enumObj: T): ChEnum<T> => new ChEnum(enumObj)
 export const CHNullable = <T extends ChPrimitiveType>(type: T): ChNullable<T> => new ChNullable(type)
 
-// You can still export the entire ClickhouseTypes object if you wish
 export const ClickhouseTypes = {
   CHUInt8,
   CHUInt16,
