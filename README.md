@@ -99,5 +99,6 @@ To start using ClickHouse-Schema in your projects, follow these steps:
 - UUID: `UUID` type
 - Arrays: `Array` type
 - Nullable: `Nullable` type
+- LowCardinality: `LowCardinality` and `Enum` types
 
 And support for more types is coming!

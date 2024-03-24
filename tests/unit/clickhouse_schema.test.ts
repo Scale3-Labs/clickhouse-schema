@@ -9,7 +9,8 @@ describe('ClickhouseSchema Tests', () => {
       name: { type: ClickhouseTypes.CHString },
       email: { type: ClickhouseTypes.CHString },
       age: { type: ClickhouseTypes.CHUInt8 },
-      score: { type: ClickhouseTypes.CHDecimal(10, 2) }
+      score: { type: ClickhouseTypes.CHDecimal(10, 2) },
+      fixed_cardinality: { type: ClickhouseTypes.CHLowCardinality(ClickhouseTypes.CHInt128) }
     }
     const options: ChSchemaOptions<typeof schemaDefinition> = {
       primary_key: 'id',

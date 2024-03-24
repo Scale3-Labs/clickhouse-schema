@@ -1,5 +1,5 @@
 import { type ChArray } from '@clickhouse-schema-data-types/ch_array'
-import { type ChEnum } from '@clickhouse-schema-data-types/ch_enum'
+import { type ChLowCardinality, type ChEnum } from '@clickhouse-schema-data-types/ch_low_ cardinality'
 import { type ChJSON } from '@clickhouse-schema-data-types/ch_json'
 import { type ChNullable } from '@clickhouse-schema-data-types/ch_nullable'
 import { type MapChSchemaTypes, type ChDataType } from '@clickhouse-schema-data-types/index'
@@ -26,3 +26,5 @@ export type InferEnum<T extends ChDataType> = T extends ChEnum<infer EnumType> ?
 export type InferJSON<T extends ChDataType> = T extends ChJSON<infer Schema> ? { [K in keyof T['innerType']]: InferJSON<Schema[K]['type']> } : InferTypeFromMap<T['typeStr']>
 
 export type InferNullable<T extends ChDataType> = T extends ChNullable<infer NullableType> ? InferTypeFromMap<NullableType['typeStr']> | null : InferTypeFromMap<T['typeStr']>
+
+export type InferLowCardinality<T extends ChDataType> = T extends ChLowCardinality<infer LowCardinalityType> ? InferTypeFromMap<LowCardinalityType['typeStr']> : InferTypeFromMap<T['typeStr']>

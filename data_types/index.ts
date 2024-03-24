@@ -2,7 +2,7 @@ import { type ChSchemaDefinition } from '@clickhouse-schema-core/clickhouse_sche
 import { ChArray } from '@clickhouse-schema-data-types/ch_array'
 import { ChBoolean } from '@clickhouse-schema-data-types/ch_boolean'
 import { ChDate, ChDate32, ChDateTime, ChDateTime64 } from '@clickhouse-schema-data-types/ch_date'
-import { ChEnum } from '@clickhouse-schema-data-types/ch_enum'
+import { ChEnum, ChLowCardinality } from '@clickhouse-schema-data-types/ch_low_ cardinality'
 import { ChFloat32, ChFloat64 } from '@clickhouse-schema-data-types/ch_float'
 import { ChUInt8, ChUInt16, ChUInt32, ChUInt64, ChInt8, ChInt16, ChInt128, ChInt256, ChUInt128, ChUInt256, ChInt32, ChInt64 } from '@clickhouse-schema-data-types/ch_integer'
 import { ChJSON } from '@clickhouse-schema-data-types/ch_json'
@@ -50,9 +50,12 @@ export const CHDateTime = <TZ extends string>(timezone: TZ): ChDateTime<TZ> => n
 export const CHDateTime64 = <P extends number, TZ extends string>(precision: P, timezone: TZ): ChDateTime64<P, TZ> => new ChDateTime64(precision, timezone)
 // JSON type
 export const CHJSON = <T extends ChSchemaDefinition>(schema: T): ChJSON<T> => new ChJSON(schema)
-// Array, Enum, Nullable types
+// Array type
 export const CHArray = <T extends ChDataType>(t: T): ChArray<T> => new ChArray(t)
+// Low cardinality types
 export const CHEnum = <T extends Record<string, number>>(enumObj: T): ChEnum<T> => new ChEnum(enumObj)
+export const CHLowCardinality = <T extends SupportedLowCardinalityTypes>(type: T): ChLowCardinality<T> => new ChLowCardinality(type)
+// Nullable type
 export const CHNullable = <T extends ChPrimitiveType>(type: T): ChNullable<T> => new ChNullable(type)
 
 export const ClickhouseTypes = {
@@ -82,6 +85,7 @@ export const ClickhouseTypes = {
   CHJSON,
   CHArray,
   CHEnum,
+  CHLowCardinality,
   CHNullable
 }
 export interface MapChSchemaTypes {
@@ -117,4 +121,7 @@ ChFloat32 | ChFloat64 | ChDecimal<number, number> | ChBoolean |
 ChDate | ChDate32 | ChDateTime<string> | ChDateTime64<number, string> |
 ChUUID | ChFixedString<number> | ChString
 
-export type ChCompositeType = ChArray<ChArray<ChDataType> | ChDataType> | ChEnum<Record<string, number>> | ChNullable<ChPrimitiveType> | ChJSON<ChSchemaDefinition>
+type SupportedLowCardinalityTypes = Exclude<ChPrimitiveType, ExcludeTypesLowCardinality>
+type ExcludeTypesLowCardinality = ChDateTime64<number, string> | ChDecimal<number, number> | ChUUID | ChBoolean | ChDate32
+
+export type ChCompositeType = ChArray<ChArray<ChDataType> | ChDataType> | ChEnum<Record<string, number>> | ChNullable<ChPrimitiveType> | ChJSON<ChSchemaDefinition> | ChLowCardinality<SupportedLowCardinalityTypes>

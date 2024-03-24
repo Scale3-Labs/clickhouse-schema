@@ -1,7 +1,7 @@
 import { ChArray } from '@clickhouse-schema-data-types/ch_array'
 import { ChBoolean } from '@clickhouse-schema-data-types/ch_boolean'
 import { ChDate, ChDate32, ChDateTime, ChDateTime64 } from '@clickhouse-schema-data-types/ch_date'
-import { ChEnum } from '@clickhouse-schema-data-types/ch_enum'
+import { ChEnum } from '@clickhouse-schema-data-types/ch_low_ cardinality'
 import { ChFloat32, ChFloat64 } from '@clickhouse-schema-data-types/ch_float'
 import { ChUInt8, ChUInt16, ChUInt32, ChUInt64, ChInt8, ChInt16, ChInt128, ChInt256, ChInt32, ChInt64, ChUInt128, ChUInt256 } from '@clickhouse-schema-data-types/ch_integer'
 import { ChJSON } from '@clickhouse-schema-data-types/ch_json'
@@ -112,5 +112,10 @@ describe('Data Types Tests', () => {
   it('should correctly create a decimal data types with the correct typeStr', () => {
     const decimal = ClickhouseTypes.CHDecimal(10, 2)
     expect(decimal.toString()).toEqual('Decimal(10,2)')
+  })
+
+  it('should correctly create a low cardinality data types with the correct typeStr', () => {
+    const lowCardinality = ClickhouseTypes.CHLowCardinality(ClickhouseTypes.CHString)
+    expect(lowCardinality.toString()).toEqual('LowCardinality(String)')
   })
 })
