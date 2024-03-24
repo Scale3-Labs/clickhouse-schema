@@ -17,7 +17,7 @@ describe('ClickhouseSchema Tests', () => {
 
     const schema = new ClickhouseSchema(schemaDefinition, options)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type ChSchemaDefinition = InferClickhouseSchemaType<typeof schema>
+    type schemaType = InferClickhouseSchemaType<typeof schema>
     expect(schema.GetOptions()).toEqual(options)
   })
 
@@ -136,7 +136,6 @@ describe('ClickhouseSchema Tests', () => {
     })
     const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = ReplicatedMergeTree()\nPRIMARY KEY id'
     const query = schema.GetCreateTableQuery()
-    console.log(query)
     expect(query).toEqual(expectedQuery)
   })
 
