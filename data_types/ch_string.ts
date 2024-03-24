@@ -9,7 +9,7 @@ export class ChString implements ChDataType {
 }
 
 export class ChFixedString<T extends number> implements ChDataType {
-  readonly typeStr: `FixedString(${string})`
+  readonly typeStr: `FixedString(${T})`
   readonly dataTypeMarker = 'FixedString' as const
   constructor (readonly length: T) {
     this.typeStr = `FixedString(${length})`
