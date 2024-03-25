@@ -71,6 +71,7 @@ To start using ClickHouse-Schema in your projects, follow these steps:
 
     ``` typescript
     import { CHString, CHUUID, type InferClickhouseSchemaType } from '@clickhouse-schema'
+    //Use types directly or import ClickhouseTypes object to get all the types in one place
     const myTable = new ClickhouseSchema({
       id: { type: CHUUID },
       name: { type: CHString }
@@ -83,7 +84,7 @@ To start using ClickHouse-Schema in your projects, follow these steps:
 3. **Utilize Schema Methods**
     ClickHouse-Schema provides several methods to streamline working with your database schema:
 
-    - Use `<your_schema>.GetCreateTableQuery()` to generate the SQL `CREATE TABLE` query.
+    - Use `<your_schema>.GetCreateTableQuery()` or `<your_schema>.toString()` to generate the SQL `CREATE TABLE` query.
     - Use `<your_schema>.GetOptions()` to access the options passed when creating the table schema.
     - Use `<your_schema>.GetCreateTableQueryAsList()` to get the `CREATE TABLE` query as a list of strings, which can be helpful for debugging or logging.
 
