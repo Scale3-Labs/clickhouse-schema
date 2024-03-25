@@ -5,8 +5,9 @@ export {
   CHJSON, CHFloat32, CHFloat64, CHDecimal,
   CHBoolean, CHUUID, CHArray, CHDate,
   CHDate32, CHDateTime, CHDateTime64,
-  CHEnum, CHFixedString, CHInt16, CHInt8,
-  CHNullable, CHString, CHUInt16, CHUInt32,
-  CHUInt64, CHUInt8, CHInt128, CHInt256, CHInt32,
-  CHInt64, CHUInt128, CHUInt256
+  CHEnum, CHLowCardinality, CHFixedString,
+  CHInt16, CHInt8, CHUInt64, CHUInt8, CHInt128,
+  CHInt256, CHInt32, CHInt64, CHUInt128, CHUInt256,
+  CHNullable, CHString, CHUInt16, CHUInt32
+
 } from '@clickhouse-schema-data-types/index'
