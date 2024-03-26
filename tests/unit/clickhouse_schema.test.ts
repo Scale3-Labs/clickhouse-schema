@@ -5,19 +5,30 @@ import { ClickhouseTypes } from '@clickhouse-schema-data-types/index'
 describe('ClickhouseSchema Tests', () => {
   it('should correctly store schema definitions and options', () => {
     const schemaDefinition = {
-      id: { type: ClickhouseTypes.CHUUID },
+      id: { type: ClickhouseTypes.CHUInt128 },
       name: { type: ClickhouseTypes.CHString },
       email: { type: ClickhouseTypes.CHString },
       age: { type: ClickhouseTypes.CHUInt8 },
       score: { type: ClickhouseTypes.CHDecimal(10, 2) },
-      fixed_cardinality: { type: ClickhouseTypes.CHLowCardinality(ClickhouseTypes.CHInt128) }
+      fixed_cardinality: { type: ClickhouseTypes.CHLowCardinality(ClickhouseTypes.CHFixedString(2)) },
+      a: { type: ClickhouseTypes.CHArray(ClickhouseTypes.CHEnum({ aaaa: 1, b: 10 })) },
+      enum: { type: ClickhouseTypes.CHEnum({ a: 1, b: 2 }) },
+      ch_date: { type: ClickhouseTypes.CHDate },
+      ch_datetime: { type: ClickhouseTypes.CHDateTime('UTC') },
+      ch_uuid: { type: ClickhouseTypes.CHUUID },
+      ch_datetime64: { type: ClickhouseTypes.CHDateTime64(3, 'UTC') },
+      ch_date32: { type: ClickhouseTypes.CHDate32 },
+      ch_nullable: { type: ClickhouseTypes.CHNullable(ClickhouseTypes.CHFloat32) },
+      ch_decimal32: { type: ClickhouseTypes.CHDecimal(2, 2) }
     }
     const options: ChSchemaOptions<typeof schemaDefinition> = {
       primary_key: 'id',
-      table_name: 'users_table'
+      table_name: 'users_table',
+      engine: 'ReplicatedMergeTree()'
     }
 
     const schema = new ClickhouseSchema(schemaDefinition, options)
+    console.log(schema.toString())
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type schemaType = InferClickhouseSchemaType<typeof schema>
     expect(schema.GetOptions()).toEqual(options)

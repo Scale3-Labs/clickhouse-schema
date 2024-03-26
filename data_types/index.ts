@@ -13,7 +13,6 @@ import { ChDecimal } from '@clickhouse-schema-data-types/ch_decimal'
 
 export interface ChDataType {
   typeStr: string
-  dataTypeMarker: string
   toString: () => string
 }
 
@@ -54,7 +53,7 @@ export const CHJSON = <T extends ChSchemaDefinition>(schema: T): ChJSON<T> => ne
 export const CHArray = <T extends ChDataType>(t: T): ChArray<T> => new ChArray(t)
 // Low cardinality types
 export const CHEnum = <T extends Record<string, number>>(enumObj: T): ChEnum<T> => new ChEnum(enumObj)
-export const CHLowCardinality = <T extends SupportedLowCardinalityTypes>(type: T): ChLowCardinality<T> => new ChLowCardinality(type)
+export const CHLowCardinality = <T extends ChString | ChFixedString<number> >(type: T): ChLowCardinality<T> => new ChLowCardinality(type)
 // Nullable type
 export const CHNullable = <T extends ChPrimitiveType>(type: T): ChNullable<T> => new ChNullable(type)
 
@@ -121,7 +120,4 @@ ChFloat32 | ChFloat64 | ChDecimal<number, number> | ChBoolean |
 ChDate | ChDate32 | ChDateTime<string> | ChDateTime64<number, string> |
 ChUUID | ChFixedString<number> | ChString
 
-type SupportedLowCardinalityTypes = Exclude<ChPrimitiveType, ExcludeTypesLowCardinality>
-type ExcludeTypesLowCardinality = ChDateTime64<number, string> | ChDecimal<number, number> | ChUUID | ChBoolean | ChDate32
-
-export type ChCompositeType = ChArray<ChArray<ChDataType> | ChDataType> | ChEnum<Record<string, number>> | ChNullable<ChPrimitiveType> | ChJSON<ChSchemaDefinition> | ChLowCardinality<SupportedLowCardinalityTypes>
+export type ChCompositeType = ChArray<ChArray<ChDataType> | ChDataType> | ChEnum<Record<string, number>> | ChNullable<ChPrimitiveType> | ChJSON<ChSchemaDefinition> | ChLowCardinality<ChString | ChFixedString<number>>

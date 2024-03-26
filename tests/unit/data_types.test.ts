@@ -67,8 +67,8 @@ describe('Data Types Tests', () => {
     const dateTime64 = new ChDateTime64(3, 'UTC')
     const dateTime = new ChDateTime('UTC')
 
-    expect(dateTime.toString()).toEqual('DateTime(UTC)')
-    expect(dateTime64.toString()).toEqual('DateTime64(3, UTC)')
+    expect(dateTime.toString()).toEqual('DateTime(\'UTC\')')
+    expect(dateTime64.toString()).toEqual('DateTime64(3, \'UTC\')')
 
     expect(date.toString()).toEqual('Date')
     expect(date32.toString()).toEqual('Date32')

@@ -1,6 +1,6 @@
 import { type ChDataType } from '@clickhouse-schema-data-types/index'
 
-export interface SchemaValue { type: ChDataType, default?: unknown }
+export interface SchemaValue { type: ChDataType, default?: any }
 export type ChSchemaDefinition = Record<string, SchemaValue>
 /**
  * ChSchemaOptions is used to define the options for a clickhouse table schema.

@@ -3,7 +3,6 @@ import { type ChDataType } from '@clickhouse-schema-data-types/index'
 export class ChArray<T extends ChDataType | ChArray<ChDataType>> implements ChDataType {
   readonly innerType: T
   readonly typeStr: string
-  readonly dataTypeMarker = 'Array' as const
 
   constructor (t: T) {
     if (t instanceof ChArray) {
