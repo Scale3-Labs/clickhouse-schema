@@ -29,10 +29,9 @@ describe('ClickhouseSchema Tests', () => {
     }
 
     const schema = new ClickhouseSchema(schemaDefinition, options)
-    console.log(schema.toString())
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type schemaType = InferClickhouseSchemaType<typeof schema>
-
     expect(schema.GetOptions()).toEqual(options)
   })
 

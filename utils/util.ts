@@ -13,4 +13,4 @@ export type InferTypeFromMap<T extends string> = ExtractInnerType<T> extends key
   ? MapChSchemaTypes[ExtractInnerType<T>]
   : ExtractOuterType<T> extends keyof MapChSchemaTypes ?
     MapChSchemaTypes[ExtractOuterType<T>]
-    : unknown
+    : any
