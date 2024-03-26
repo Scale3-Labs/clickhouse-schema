@@ -19,7 +19,8 @@ describe('ClickhouseSchema Tests', () => {
       ch_datetime64: { type: ClickhouseTypes.CHDateTime64(3, 'UTC') },
       ch_date32: { type: ClickhouseTypes.CHDate32 },
       ch_nullable: { type: ClickhouseTypes.CHNullable(ClickhouseTypes.CHFloat32) },
-      ch_decimal32: { type: ClickhouseTypes.CHDecimal(2, 2) }
+      ch_decimal32: { type: ClickhouseTypes.CHDecimal(2, 2) },
+      ch_json: { type: ClickhouseTypes.CHJSON({ k: { type: ClickhouseTypes.CHString }, arr: { type: ClickhouseTypes.CHArray(ClickhouseTypes.CHJSON({ nested: { type: ClickhouseTypes.CHString } })) } }) }
     }
     const options: ChSchemaOptions<typeof schemaDefinition> = {
       primary_key: 'id',
@@ -31,6 +32,7 @@ describe('ClickhouseSchema Tests', () => {
     console.log(schema.toString())
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type schemaType = InferClickhouseSchemaType<typeof schema>
+
     expect(schema.GetOptions()).toEqual(options)
   })
 
