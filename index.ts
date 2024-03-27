@@ -1,13 +1,7 @@
 export { ClickhouseSchema } from '@clickhouse-schema-core/clickhouse_schema'
-export { ClickhouseTypes } from '@clickhouse-schema-data-types/index'
 export type { InferClickhouseSchemaType } from '@clickhouse-schema-core/infer_schema_type'
 export {
-  CHJSON, CHFloat32, CHFloat64, CHDecimal,
-  CHBoolean, CHUUID, CHArray, CHDate,
-  CHDate32, CHDateTime, CHDateTime64,
-  CHEnum, CHLowCardinality, CHFixedString,
-  CHInt16, CHInt8, CHUInt64, CHUInt8, CHInt128,
-  CHInt256, CHInt32, CHInt64, CHUInt128, CHUInt256,
-  CHNullable, CHString, CHUInt16, CHUInt32
-
+  CHArray, CHBoolean, CHDate,
+  CHDate32, CHDateTime, CHDateTime64, CHDecimal, CHEnum, CHFixedString, CHFloat32, CHFloat64, CHIPv4,
+  CHIPv6, CHInt128, CHInt16, CHInt256, CHInt32, CHInt64, CHInt8, CHJSON, CHLowCardinality, CHNullable, CHString, CHUInt128, CHUInt16, CHUInt256, CHUInt32, CHUInt64, CHUInt8, CHUUID, ClickhouseTypes
 } from '@clickhouse-schema-data-types/index'

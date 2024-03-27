@@ -82,12 +82,12 @@ describe('Data Types Tests', () => {
     expect(fixedString.toString()).toEqual('FixedString(10)')
   })
 
-  it('should correctly create a uuid data types with the correct typeStr', () => {
+  it('should correctly create a uuid data type with the correct typeStr', () => {
     const uuid = new ChUUID()
     expect(uuid.toString()).toEqual('UUID')
   })
 
-  it('should correctly create a json data types with the correct typeStr', () => {
+  it('should correctly create a json data type with the correct typeStr', () => {
     const json = new ChJSON({
       dateTime64: { type: ClickhouseTypes.CHDateTime64(3, 'UTC') },
       dateTime: { type: ClickhouseTypes.CHDateTime('UTC') },
@@ -99,23 +99,30 @@ describe('Data Types Tests', () => {
     expect(json.toString()).toEqual('JSON')
   })
 
-  it('should correctly create a enum data types with the correct typeStr', () => {
+  it('should correctly create a enum data type with the correct typeStr', () => {
     const enumType = new ChEnum({ POST: 1, PUT: 2, DELETE: 3, GET: 4 })
     expect(enumType.toString()).toEqual('Enum(\'POST\' = 1,\'PUT\' = 2,\'DELETE\' = 3,\'GET\' = 4)')
   })
 
-  it('should correctly create a nullable data types with the correct typeStr', () => {
+  it('should correctly create a nullable data type with the correct typeStr', () => {
     const nullableString = ClickhouseTypes.CHNullable(ClickhouseTypes.CHString)
     expect(nullableString.toString()).toEqual('Nullable(String)')
   })
 
-  it('should correctly create a decimal data types with the correct typeStr', () => {
+  it('should correctly create a decimal data type with the correct typeStr', () => {
     const decimal = ClickhouseTypes.CHDecimal(10, 2)
     expect(decimal.toString()).toEqual('Decimal(10,2)')
   })
 
-  it('should correctly create a low cardinality data types with the correct typeStr', () => {
+  it('should correctly create a low cardinality data type with the correct typeStr', () => {
     const lowCardinality = ClickhouseTypes.CHLowCardinality(ClickhouseTypes.CHString)
     expect(lowCardinality.toString()).toEqual('LowCardinality(String)')
+  })
+
+  it('should correctly create a ip address data types with the correct typeStr', () => {
+    const ipv4 = ClickhouseTypes.CHIPv4
+    const ipv6 = ClickhouseTypes.CHIPv6
+    expect(ipv4.toString()).toEqual('IPv4')
+    expect(ipv6.toString()).toEqual('IPv6')
   })
 })

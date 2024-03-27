@@ -20,7 +20,9 @@ describe('ClickhouseSchema Tests', () => {
       ch_date32: { type: ClickhouseTypes.CHDate32 },
       ch_nullable: { type: ClickhouseTypes.CHNullable(ClickhouseTypes.CHFloat32) },
       ch_decimal32: { type: ClickhouseTypes.CHDecimal(2, 2) },
-      ch_json: { type: ClickhouseTypes.CHJSON({ k: { type: ClickhouseTypes.CHString }, arr: { type: ClickhouseTypes.CHArray(ClickhouseTypes.CHJSON({ nested: { type: ClickhouseTypes.CHString } })) } }) }
+      ch_json: { type: ClickhouseTypes.CHJSON({ k: { type: ClickhouseTypes.CHString }, arr: { type: ClickhouseTypes.CHArray(ClickhouseTypes.CHJSON({ nested: { type: ClickhouseTypes.CHString } })) } }) },
+      ch_IPv6: { type: ClickhouseTypes.CHIPv6 },
+      ch_IPv4: { type: ClickhouseTypes.CHIPv4 }
     }
     const options: ChSchemaOptions<typeof schemaDefinition> = {
       primary_key: 'id',
