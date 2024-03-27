@@ -101,5 +101,6 @@ To start using ClickHouse-Schema in your projects, follow these steps:
 - Arrays: `Array` type
 - Nullable: `Nullable` type
 - LowCardinality: `LowCardinality` and `Enum` types
+- IP Addresses - `IPv4` and `IPv6`
 
 And support for more types is coming!
