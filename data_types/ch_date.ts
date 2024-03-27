@@ -2,7 +2,6 @@ import { type ChDataType } from '@clickhouse-schema-data-types/index'
 
 export class ChDate implements ChDataType {
   readonly typeStr: 'Date' = 'Date' as const
-  readonly dataTypeMarker = 'Date' as const
 
   toString (): string {
     return this.typeStr
@@ -11,7 +10,6 @@ export class ChDate implements ChDataType {
 
 export class ChDate32 implements ChDataType {
   readonly typeStr: 'Date32' = 'Date32' as const
-  readonly dataTypeMarker = 'Date32' as const
 
   toString (): string {
     return this.typeStr
@@ -19,11 +17,10 @@ export class ChDate32 implements ChDataType {
 }
 
 export class ChDateTime<T extends string> implements ChDataType {
-  readonly typeStr: `DateTime(${T})`
-  readonly dataTypeMarker = 'DateTime' as const
+  readonly typeStr: `DateTime('${T}')`
 
   constructor (readonly timezone: T) {
-    this.typeStr = `DateTime(${timezone})`
+    this.typeStr = `DateTime('${timezone}')`
   }
 
   toString (): string {
@@ -32,11 +29,10 @@ export class ChDateTime<T extends string> implements ChDataType {
 }
 
 export class ChDateTime64<T extends number, V extends string> implements ChDataType {
-  readonly typeStr: `DateTime64(${T}, ${V})`
-  readonly dataTypeMarker = 'DateTime64' as const
+  readonly typeStr: `DateTime64(${T}, '${V}')`
 
   constructor (readonly precision: T, readonly timezone: V) {
-    this.typeStr = `DateTime64(${precision}, ${timezone})`
+    this.typeStr = `DateTime64(${precision}, '${timezone}')`
   }
 
   toString (): string {
