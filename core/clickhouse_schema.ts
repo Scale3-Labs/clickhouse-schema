@@ -23,13 +23,20 @@ export interface ChSchemaOptions<T> {
   additional_options?: string[]
 }
 
+/**
+ * IClickhouseSchema is an interface that represents a clickhouse schema.
+ */
 interface IClickhouseSchema<T> {
   GetOptions: () => ChSchemaOptions<T>
   GetCreateTableQuery: () => string
   GetCreateTableQueryAsList: () => string[]
 }
 
-/* This class is used to represent a clickhouse table schema */
+/**
+ * ClickhouseSchema is a class that represents a clickhouse schema.
+ * @param schema is the schema definition
+ * @param options is the options for the schema
+ */
 export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> implements IClickhouseSchema<SchemaDefinition> {
   readonly schema: SchemaDefinition
   private readonly options: ChSchemaOptions<SchemaDefinition>
@@ -75,10 +82,18 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
     return createTableQuery
   }
 
+  /**
+   *
+   * @returns the create table query as a list of strings
+   */
   GetCreateTableQueryAsList (): string[] {
     return this.GetCreateTableQuery().split('\n')
   }
 
+  /**
+   *
+   * @returns the create table query as a string
+   */
   toString (): string {
     return this.GetCreateTableQuery()
   }

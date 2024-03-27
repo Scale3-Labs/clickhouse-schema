@@ -1,5 +1,9 @@
 import { type ChPrimitiveType, type ChDataType } from '@clickhouse-schema-data-types/index'
 
+/**
+ * ChNullable is a class that represents a Clickhouse Nullable data type
+ * @param T - The inner type of the Nullable. Must be a primitive type
+ */
 export class ChNullable<T extends ChPrimitiveType> implements ChDataType {
   readonly typeStr
   readonly innerType: T

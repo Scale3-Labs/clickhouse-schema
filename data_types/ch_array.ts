@@ -1,5 +1,9 @@
 import { type ChDataType } from '@clickhouse-schema-data-types/index'
 
+/**
+ * ChArray is a class that represents an array of a Clickhouse data type
+ * @param T - The type of the array elements (can be a ChDataType or another ChArray)
+ */
 export class ChArray<T extends ChDataType | ChArray<ChDataType>> implements ChDataType {
   readonly innerType: T
   readonly typeStr: string

@@ -1,5 +1,8 @@
 import { type ChDataType } from '@clickhouse-schema-data-types/index'
 
+/**
+ * ChDate is a class that represents a Clickhouse Date data type
+ */
 export class ChDate implements ChDataType {
   readonly typeStr: 'Date' = 'Date' as const
 
@@ -8,6 +11,9 @@ export class ChDate implements ChDataType {
   }
 }
 
+/**
+ * ChDate32 is a class that represents a Clickhouse Date32 data type
+ */
 export class ChDate32 implements ChDataType {
   readonly typeStr: 'Date32' = 'Date32' as const
 
@@ -16,6 +22,9 @@ export class ChDate32 implements ChDataType {
   }
 }
 
+/**
+ * ChDate64 is a class that represents a Clickhouse Date64 data type
+ */
 export class ChDateTime<T extends string> implements ChDataType {
   readonly typeStr: `DateTime('${T}')`
 
@@ -28,6 +37,11 @@ export class ChDateTime<T extends string> implements ChDataType {
   }
 }
 
+/**
+ * ChDateTime64 is a class that represents a Clickhouse DateTime64 data type
+ * @param T - The precision of the DateTime64
+ * @param V - The timezone of the DateTime64
+ */
 export class ChDateTime64<T extends number, V extends string> implements ChDataType {
   readonly typeStr: `DateTime64(${T}, '${V}')`
 

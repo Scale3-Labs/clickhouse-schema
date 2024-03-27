@@ -1,5 +1,8 @@
 import { type ChDataType } from '@clickhouse-schema-data-types/index'
 
+/**
+ * ChString is a class that represents a Clickhouse String data type
+ */
 export class ChString implements ChDataType {
   readonly typeStr: 'String' = 'String' as const
 
@@ -8,6 +11,10 @@ export class ChString implements ChDataType {
   }
 }
 
+/**
+ * ChFixedString is a class that represents a Clickhouse FixedString data type
+ * @param T - The length of the FixedString
+ */
 export class ChFixedString<T extends number> implements ChDataType {
   readonly typeStr: `FixedString(${T})`
 

@@ -11,12 +11,14 @@ import { ChUUID } from '@clickhouse-schema-data-types/ch_uuid'
 import { ChNullable } from '@clickhouse-schema-data-types/ch_nullable'
 import { ChDecimal } from '@clickhouse-schema-data-types/ch_decimal'
 
+/**
+ * ChDataType is an interface that represents a Clickhouse data type
+ */
 export interface ChDataType {
   typeStr: string
   toString: () => string
 }
 
-// Individual type definitions
 // Integer types unsigned
 export const CHUInt8 = new ChUInt8()
 export const CHUInt16 = new ChUInt16()
@@ -34,27 +36,69 @@ export const CHInt256 = new ChInt256()
 // Float types
 export const CHFloat32 = new ChFloat32()
 export const CHFloat64 = new ChFloat64()
-// Decimal type
-export const CHDecimal = <P extends number, S extends number>(precision: P, scale: S): ChDecimal<P, S> => new ChDecimal(precision, scale)
 // Boolean type
 export const CHBoolean = new ChBoolean()
-// String types
 export const CHString = new ChString()
-export const CHFixedString = <T extends number>(length: T): ChFixedString<T> => new ChFixedString(length)
 export const CHUUID = new ChUUID()
-// Date types
 export const CHDate = new ChDate()
 export const CHDate32 = new ChDate32()
+/**
+ *
+ * @param precision precision of the decimal
+ * @param scale scale of the decimal
+ * @returns a new ChDecimal object
+ */
+export const CHDecimal = <P extends number, S extends number>(precision: P, scale: S): ChDecimal<P, S> => new ChDecimal(precision, scale)
+
+/**
+ *
+ * @param length length of the fixed string
+ * @returns a new ChFixedString object
+ */
+export const CHFixedString = <T extends number>(length: T): ChFixedString<T> => new ChFixedString(length)
+
+/**
+ *
+ * @param timezone timezone of the DateTime
+ * @returns a new ChDateTime object
+ */
 export const CHDateTime = <TZ extends string>(timezone: TZ): ChDateTime<TZ> => new ChDateTime(timezone)
+/**
+ *
+ * @param precision precision of the DateTime64
+ * @param timezone timezone of the DateTime64
+ * @returns a new ChDateTime64 object
+ */
 export const CHDateTime64 = <P extends number, TZ extends string>(precision: P, timezone: TZ): ChDateTime64<P, TZ> => new ChDateTime64(precision, timezone)
-// JSON type
+/**
+ *
+ * @param schema schema definition for the JSON
+ * @returns a new ChJSON object
+ */
 export const CHJSON = <T extends ChSchemaDefinition>(schema: T): ChJSON<T> => new ChJSON(schema)
-// Array type
+/**
+ *
+ * @param t type of the array
+ * @returns a new ChArray object
+ */
 export const CHArray = <T extends ChDataType>(t: T): ChArray<T> => new ChArray(t)
-// Low cardinality types
+/**
+ *
+ * @param enumObj enum object. The keys are the enum names and the values are the enum values
+ * @returns a new ChEnum object
+ */
 export const CHEnum = <T extends Record<string, number>>(enumObj: T): ChEnum<T> => new ChEnum(enumObj)
+/**
+ *
+ * @param type type of the low cardinality. Must be a string or fixed string
+ * @returns a new ChLowCardinality object
+ */
 export const CHLowCardinality = <T extends ChString | ChFixedString<number> >(type: T): ChLowCardinality<T> => new ChLowCardinality(type)
-// Nullable type
+/**
+ *
+ * @param type type of the nullable. Must be a primitive type
+ * @returns a new ChNullable object
+ */
 export const CHNullable = <T extends ChPrimitiveType>(type: T): ChNullable<T> => new ChNullable(type)
 
 export const ClickhouseTypes = {
