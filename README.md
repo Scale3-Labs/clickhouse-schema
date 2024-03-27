@@ -70,7 +70,7 @@ To start using ClickHouse-Schema in your projects, follow these steps:
     Define your table schema and provide options such as the table name and primary key. This will enable automatic type inference, making your code more robust and maintainable.
 
     ``` typescript
-    import { CHString, CHUUID, type InferClickhouseSchemaType } from '@clickhouse-schema'
+    import { CHString, CHUUID, type InferClickhouseSchemaType } from 'clickhouse-schema'
     //Use types directly or import ClickhouseTypes object to get all the types in one place
     const myTable = new ClickhouseSchema({
       id: { type: CHUUID },
