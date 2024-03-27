@@ -6,8 +6,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "dist",
+    "!dist/**/*.map",
+    "!dist/jest.config.*",
+    "!dist/tsconfig.tsbuildinfo",
+    "!dist/tests",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
   "scripts": {
-    "test": "jest"
+    "lint": "eslint . --ext .ts",
+    "test": "jest",
+    "build": "npm run lint && tsc --build && tsc-alias"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
