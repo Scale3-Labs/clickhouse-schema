@@ -1,5 +1,11 @@
 # clickhouse-schema
 
+## 1.0.2
+
+### Patch Changes
+
+- Update package json to add keywords
+
 ## 1.0.1
 
 ### Patch Changes
