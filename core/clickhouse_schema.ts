@@ -51,7 +51,7 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
   }
 
   GetCreateTableQuery (): string {
-    if (this.options.primary_key === undefined && this.options.order_by === undefined) {
+    if (this.options.primary_key === undefined && this.options.order_by === undefined && this.options.on_cluster === undefined) {
       throw new Error('One of order_by or primary_key must be specified')
     }
 

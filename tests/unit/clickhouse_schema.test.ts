@@ -221,4 +221,20 @@ describe('ClickhouseSchema Tests', () => {
     const query = schema.toString()
     expect(query).toEqual(expectedQuery)
   })
+
+  it('should not throw if on_cluster is specified but primary_key or order_by is not', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.CHUUID },
+      name: { type: ClickhouseTypes.CHString, default: 'John Doe' },
+      email: { type: ClickhouseTypes.CHString }
+    }
+    const options: ChSchemaOptions<typeof schemaDefinition> = {
+      table_name: 'users_table',
+      on_cluster: 'users_cluster'
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()'
+    const query = schema.GetCreateTableQuery()
+    expect(query).toEqual(expectedQuery)
+  })
 })
