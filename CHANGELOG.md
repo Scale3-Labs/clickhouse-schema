@@ -1,5 +1,11 @@
 # clickhouse-schema
 
+## 1.0.4
+
+### Patch Changes
+
+- Fix bug causing error when on_cluser option is specified and primary_key or order_by is not
+
 ## 1.0.3
 
 ### Patch Changes
