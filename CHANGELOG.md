@@ -1,5 +1,11 @@
 # clickhouse-schema
 
+## 1.0.3
+
+### Patch Changes
+
+- Add repository to readme
+
 ## 1.0.2
 
 ### Patch Changes
