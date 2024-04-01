@@ -7,10 +7,13 @@ import { type ChDataType } from '@clickhouse-schema-data-types/index'
 export class ChEnum<T extends Record<string, number>> implements ChDataType {
   readonly typeStr: string
   readonly innerType: T
+  readonly typeScriptType!: keyof T
+  readonly default?: keyof T
 
-  constructor (enumObj: T) {
+  constructor (enumObj: T, defaultValue?: keyof T) {
     this.innerType = enumObj
     this.typeStr = this.toString()
+    this.default = defaultValue
   }
 
   toString (): string {
@@ -23,9 +26,12 @@ export class ChEnum<T extends Record<string, number>> implements ChDataType {
  */
 export class ChLowCardinality<T extends ChDataType> implements ChDataType {
   readonly typeStr
+  readonly typeScriptType!: T['typeScriptType']
+  readonly default?: T['typeScriptType']
 
-  constructor (readonly innerType: T) {
-    this.typeStr = `LowCardinality(${innerType.typeStr})`
+  constructor (readonly innerType: T, defaultValue?: T['typeScriptType']) {
+    this.default = defaultValue
+    this.typeStr = `LowCardinality(${innerType.typeStr.toString()})`
   }
 
   toString (): string {

@@ -1,6 +1,6 @@
 import { type ChDataType } from '@clickhouse-schema-data-types/index'
 
-export interface SchemaValue { type: ChDataType, default?: any }
+export interface SchemaValue { type: ChDataType }
 export type ChSchemaDefinition = Record<string, SchemaValue>
 /**
  * ChSchemaOptions is used to define the options for a clickhouse table schema.
@@ -58,10 +58,10 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
     const columns = Object.entries(this.schema as ChSchemaDefinition)
       .map(([name, field]) => {
         // Check if default is defined and a string, add single quotes; otherwise, just use the value
-        const defaultValue = field.default !== undefined
-          ? (typeof field.default === 'string' ? `'${field.default}'` : field.default)
+        const defaultValue = field.type.default !== undefined
+          ? (typeof field.type.default === 'string' ? `'${field.type.default}'` : field.type.default)
           : ''
-        return `${name} ${field.type}${field.default !== undefined ? ` DEFAULT ${defaultValue}` : ''}`
+        return `${name} ${field.type}${field.type.default !== undefined ? ` DEFAULT ${defaultValue}` : ''}`
       }
       )
       .join(',\n')

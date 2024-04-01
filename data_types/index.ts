@@ -4,7 +4,6 @@ import { ChBoolean } from '@clickhouse-schema-data-types/ch_boolean'
 import { ChDate, ChDate32, ChDateTime, ChDateTime64 } from '@clickhouse-schema-data-types/ch_date'
 import { ChDecimal } from '@clickhouse-schema-data-types/ch_decimal'
 import { ChFloat32, ChFloat64 } from '@clickhouse-schema-data-types/ch_float'
-import { ChInt128, ChInt16, ChInt256, ChInt32, ChInt64, ChInt8, ChUInt128, ChUInt16, ChUInt256, ChUInt32, ChUInt64, ChUInt8 } from '@clickhouse-schema-data-types/ch_integer'
 import { ChIPv4, ChIPv6 } from '@clickhouse-schema-data-types/ch_ip_address'
 import { ChJSON } from '@clickhouse-schema-data-types/ch_json'
 
@@ -12,45 +11,145 @@ import { ChEnum, ChLowCardinality } from '@clickhouse-schema-data-types/ch_low_ 
 import { ChNullable } from '@clickhouse-schema-data-types/ch_nullable'
 import { ChFixedString, ChString } from '@clickhouse-schema-data-types/ch_string'
 import { ChUUID } from '@clickhouse-schema-data-types/ch_uuid'
+import { ChUInt8, ChUInt16, ChUInt32, ChUInt64, ChUInt128, ChUInt256, ChInt8, ChInt16, ChInt32, ChInt64, ChInt128, ChInt256 } from '@clickhouse-schema-data-types/ch_integer'
 
 /**
  * ChDataType is an interface that represents a Clickhouse data type
  */
 export interface ChDataType {
   typeStr: string
+  default?: any
+  innerType?: any
+  typeScriptType: any
   toString: () => string
 }
 
-// Integer types unsigned
-export const CHUInt8 = new ChUInt8()
-export const CHUInt16 = new ChUInt16()
-export const CHUInt32 = new ChUInt32()
-export const CHUInt64 = new ChUInt64()
-export const CHUInt128 = new ChUInt128()
-export const CHUInt256 = new ChUInt256()
-// Integer types signed
-export const CHInt8 = new ChInt8()
-export const CHInt16 = new ChInt16()
-export const CHInt32 = new ChInt32()
-export const CHInt64 = new ChInt64()
-export const CHInt128 = new ChInt128()
-export const CHInt256 = new ChInt256()
-// Float types
-export const CHFloat32 = new ChFloat32()
-export const CHFloat64 = new ChFloat64()
-// Boolean type
-export const CHBoolean = new ChBoolean()
-// String type
-export const CHString = new ChString()
-// UUID type
-export const CHUUID = new ChUUID()
-// Date types
-export const CHDate = new ChDate()
-export const CHDate32 = new ChDate32()
-
-// IP Address types
-export const CHIPv4 = new ChIPv4()
-export const CHIPv6 = new ChIPv6()
+/**
+ *
+ * @param df default value of the UInt8
+ * @returns a new ChUInt8 object
+ */
+export const CHUInt8 = <T extends ChUInt8['typeScriptType']> (df?: T): ChUInt8 => new ChUInt8(df)
+/**
+ *
+ * @param df default value of the UInt16
+ * @returns a new ChUInt16 object
+ */
+export const CHUInt16 = <T extends ChUInt16['typeScriptType']> (df?: T): ChUInt16 => new ChUInt16(df)
+/**
+ *
+ * @param df default value of the UInt32
+ * @returns a new ChUInt32 object
+ */
+export const CHUInt32 = <T extends ChUInt32['typeScriptType']> (df?: T): ChUInt32 => new ChUInt32(df)
+/**
+ *
+ * @param df default value of the UInt64
+ * @returns a new ChUInt64 object
+ */
+export const CHUInt64 = <T extends ChUInt64['typeScriptType']> (df?: T): ChUInt64 => new ChUInt64(df)
+/**
+ *
+ * @param df default value of the UInt128
+ * @returns a new ChUInt128 object
+ */
+export const CHUInt128 = <T extends ChUInt128['typeScriptType']> (df?: T): ChUInt128 => new ChUInt128(df)
+/**
+ *
+ * @param df default value of the UInt256
+ * @returns a new ChUInt256 object
+ */
+export const CHUInt256 = <T extends ChUInt256['typeScriptType']> (df?: T): ChUInt256 => new ChUInt256(df)
+/**
+ *
+ * @param df default value of the Int8
+ * @returns a new ChInt8 object
+ */
+export const CHInt8 = <T extends ChInt8['typeScriptType']> (df?: T): ChInt8 => new ChInt8(df)
+/**
+ *
+ * @param df default value of the Int16
+ * @returns a new ChInt16 object
+ */
+export const CHInt16 = <T extends ChInt16['typeScriptType']> (df?: T): ChInt16 => new ChInt16(df)
+/**
+ *
+ * @param df default value of the Int32
+ * @returns a new ChInt32 object
+ */
+export const CHInt32 = <T extends ChInt32['typeScriptType']> (df?: T): ChInt32 => new ChInt32(df)
+/**
+ *
+ * @param df default value of the Int64
+ * @returns a new ChInt64 object
+ */
+export const CHInt64 = <T extends ChInt64['typeScriptType']> (df?: T): ChInt64 => new ChInt64(df)
+/**
+ *
+ * @param df default value of the Int128
+ * @returns a new ChInt128 object
+ */
+export const CHInt128 = <T extends ChInt128['typeScriptType']> (df?: T): ChInt128 => new ChInt128(df)
+/**
+ *
+ * @param df default value of the Int256
+ * @returns a new ChInt256 object
+ */
+export const CHInt256 = <T extends ChInt256['typeScriptType']> (df?: T): ChInt256 => new ChInt256(df)
+/**
+ *
+ * @param df default value of the Float32
+ * @returns a new ChFloat32 object
+ */
+export const CHFloat32 = <T extends ChFloat32['typeScriptType']> (df?: T): ChFloat32 => new ChFloat32(df)
+/**
+ *
+ * @param df default value of the Float64
+ * @returns a new ChFloat64 object
+ */
+export const CHFloat64 = <T extends ChFloat64['typeScriptType']> (df?: T): ChFloat64 => new ChFloat64(df)
+/**
+ *
+ * @param df default value of the Boolean
+ * @returns a new ChBoolean object
+ */
+export const CHBoolean = <T extends ChBoolean['typeScriptType']> (df?: T): ChBoolean => new ChBoolean(df)
+/**
+ *
+ * @param df default value of the String
+ * @returns a new ChString object
+ */
+export const CHString = <T extends ChString['typeScriptType']> (df?: T): ChString => new ChString(df)
+/**
+ *
+ * @param df default value of the UUID
+ * @returns a new ChUUID object
+ */
+export const CHUUID = <T extends ChUUID['typeScriptType']> (df?: T): ChUUID => new ChUUID(df)
+/**
+ *
+ * @param df default value of the Date
+ * @returns a new ChDate object
+ */
+export const CHDate = <T extends ChDate['typeScriptType']> (df?: T): ChDate => new ChDate(df)
+/**
+ *
+ * @param df default value of the Date32
+ * @returns a new ChDate32 object
+ */
+export const CHDate32 = <T extends ChDate32['typeScriptType']> (df?: T): ChDate32 => new ChDate32(df)
+/**
+ *
+ * @param df default value of the IPv4
+ * @returns a new ChIPv4 object
+ */
+export const CHIPv4 = <T extends ChIPv4['typeScriptType']> (df?: T): ChIPv4 => new ChIPv4(df)
+/**
+ *
+ * @param df default value of the IPv6
+ * @returns a new ChIPv6 object
+ */
+export const CHIPv6 = <T extends ChIPv6['typeScriptType']> (df?: T): ChIPv6 => new ChIPv6(df)
 
 /**
  *
@@ -58,58 +157,58 @@ export const CHIPv6 = new ChIPv6()
  * @param scale scale of the decimal
  * @returns a new ChDecimal object
  */
-export const CHDecimal = <P extends number, S extends number>(precision: P, scale: S): ChDecimal<P, S> => new ChDecimal(precision, scale)
+export const CHDecimal = <P extends number, S extends number, T extends ChDecimal<P, S>['typeScriptType']>(precision: P, scale: S, df?: T): ChDecimal<P, S> => new ChDecimal(precision, scale, df)
 
 /**
  *
  * @param length length of the fixed string
  * @returns a new ChFixedString object
  */
-export const CHFixedString = <T extends number>(length: T): ChFixedString<T> => new ChFixedString(length)
+export const CHFixedString = <L extends number, T extends ChFixedString<L>['typeScriptType']>(length: L, df?: T): ChFixedString<L> => new ChFixedString(length, df)
 
 /**
  *
  * @param timezone timezone of the DateTime
  * @returns a new ChDateTime object
  */
-export const CHDateTime = <TZ extends string>(timezone: TZ): ChDateTime<TZ> => new ChDateTime(timezone)
+export const CHDateTime = <TZ extends string, T extends ChDateTime<TZ>['typeScriptType']>(timezone: TZ, df?: T): ChDateTime<TZ> => new ChDateTime(timezone, df)
 /**
  *
  * @param precision precision of the DateTime64
  * @param timezone timezone of the DateTime64
  * @returns a new ChDateTime64 object
  */
-export const CHDateTime64 = <P extends number, TZ extends string>(precision: P, timezone: TZ): ChDateTime64<P, TZ> => new ChDateTime64(precision, timezone)
+export const CHDateTime64 = <P extends number, TZ extends string, T extends ChDateTime64<P, TZ>['typeScriptType'] >(precision: P, timezone: TZ, df?: T): ChDateTime64<P, TZ> => new ChDateTime64(precision, timezone, df)
 /**
  *
  * @param schema schema definition for the JSON
  * @returns a new ChJSON object
  */
-export const CHJSON = <T extends ChSchemaDefinition>(schema: T): ChJSON<T> => new ChJSON(schema)
+export const CHJSON = <SD extends ChSchemaDefinition, T extends ChJSON<SD>['typeScriptType']>(schema: SD, df?: T): ChJSON<SD> => new ChJSON(schema, df)
 /**
  *
  * @param t type of the array
  * @returns a new ChArray object
  */
-export const CHArray = <T extends ChDataType>(t: T): ChArray<T> => new ChArray(t)
+export const CHArray = <IN extends ChDataType, T extends ChArray<IN>['typeScriptType']>(t: IN, df?: T): ChArray<IN> => new ChArray(t, df)
 /**
  *
  * @param enumObj enum object. The keys are the enum names and the values are the enum values
  * @returns a new ChEnum object
  */
-export const CHEnum = <T extends Record<string, number>>(enumObj: T): ChEnum<T> => new ChEnum(enumObj)
+export const CHEnum = <IN extends Record<string, number>, T extends ChEnum<IN>['typeScriptType']>(enumObj: IN, df?: T): ChEnum<IN> => new ChEnum(enumObj, df)
 /**
  *
  * @param type type of the low cardinality. Must be a string or fixed string
  * @returns a new ChLowCardinality object
  */
-export const CHLowCardinality = <T extends ChString | ChFixedString<number>>(type: T): ChLowCardinality<T> => new ChLowCardinality(type)
+export const CHLowCardinality = <IN extends ChString | ChFixedString<number>, T extends ChLowCardinality<IN>['typeScriptType']>(type: IN, df?: T): ChLowCardinality<IN> => new ChLowCardinality(type, df)
 /**
  *
  * @param type type of the nullable. Must be a primitive type
  * @returns a new ChNullable object
  */
-export const CHNullable = <T extends ChPrimitiveType>(type: T): ChNullable<T> => new ChNullable(type)
+export const CHNullable = <IN extends ChPrimitiveType, T extends ChNullable<IN>['typeScriptType']>(type: IN, df?: T): ChNullable<IN> => new ChNullable(type, df)
 
 export const ClickhouseTypes = {
   CHUInt8,
@@ -142,33 +241,6 @@ export const ClickhouseTypes = {
   CHEnum,
   CHLowCardinality,
   CHNullable
-}
-export interface MapChSchemaTypes {
-  UInt8: number
-  UInt16: number
-  UInt32: number
-  UInt64: number
-  UInt128: number
-  UInt256: number
-  Int8: number
-  Int16: number
-  Int32: number
-  Int64: number
-  Int128: number
-  Int256: number
-  Float32: number
-  Float64: number
-  Decimal: number
-  Boolean: boolean
-  String: string
-  UUID: string
-  Date: Date
-  Date32: Date
-  DateTime: Date
-  DateTime64: Date
-  FixedString: string
-  IPv4: string
-  IPv6: string
 }
 
 export type ChPrimitiveType =

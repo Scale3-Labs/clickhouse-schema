@@ -5,6 +5,12 @@ import { type ChDataType } from '@clickhouse-schema-data-types/index'
  */
 export class ChDate implements ChDataType {
   readonly typeStr: 'Date' = 'Date' as const
+  readonly typeScriptType!: Date
+  readonly default?: Date
+
+  constructor (defaultValue?: Date) {
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -16,6 +22,11 @@ export class ChDate implements ChDataType {
  */
 export class ChDate32 implements ChDataType {
   readonly typeStr: 'Date32' = 'Date32' as const
+  readonly typeScriptType!: Date
+  readonly default?: Date
+  constructor (defaultValue?: Date) {
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -27,9 +38,12 @@ export class ChDate32 implements ChDataType {
  */
 export class ChDateTime<T extends string> implements ChDataType {
   readonly typeStr: `DateTime('${T}')`
+  readonly typeScriptType!: Date
+  readonly defaultValue?: Date
 
-  constructor (readonly timezone: T) {
+  constructor (readonly timezone: T, defaultValue?: Date) {
     this.typeStr = `DateTime('${timezone}')`
+    this.defaultValue = defaultValue
   }
 
   toString (): string {
@@ -44,9 +58,12 @@ export class ChDateTime<T extends string> implements ChDataType {
  */
 export class ChDateTime64<T extends number, V extends string> implements ChDataType {
   readonly typeStr: `DateTime64(${T}, '${V}')`
+  readonly typeScriptType!: Date
+  readonly defaultValue?: Date
 
-  constructor (readonly precision: T, readonly timezone: V) {
+  constructor (readonly precision: T, readonly timezone: V, defaultValue?: Date) {
     this.typeStr = `DateTime64(${precision}, '${timezone}')`
+    this.defaultValue = defaultValue
   }
 
   toString (): string {
