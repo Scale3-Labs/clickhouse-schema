@@ -7,10 +7,13 @@ import { type ChDataType } from '@clickhouse-schema-data-types/index'
 export class ChJSON<T extends ChSchemaDefinition> implements ChDataType {
   readonly typeStr: 'JSON'
   readonly innerType: T
+  readonly typeScriptType!: { [K in keyof T]: T[K]['type']['typeScriptType'] }
+  readonly default?: { [K in keyof T]: T[K]['type']['typeScriptType'] }
 
-  constructor (innerType: T) {
+  constructor (innerType: T, defaultValue?: { [K in keyof T]: T[K]['type']['typeScriptType'] }) {
     this.typeStr = 'JSON'
     this.innerType = innerType
+    this.default = defaultValue
   }
 
   toString (): string {

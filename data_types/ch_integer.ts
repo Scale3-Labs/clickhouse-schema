@@ -5,9 +5,12 @@ import { type ChDataType } from '@clickhouse-schema-data-types/index'
  */
 export class ChUInt8 implements ChDataType {
   readonly typeStr: 'UInt8' = 'UInt8' as const
+  readonly typeScriptType!: number
+  readonly default?: number
 
-  constructor () {
+  constructor (defaultValue?: number) {
     this.typeStr = 'UInt8'
+    this.default = defaultValue
   }
 
   toString (): string {
@@ -20,9 +23,12 @@ export class ChUInt8 implements ChDataType {
  */
 export class ChUInt16 implements ChDataType {
   readonly typeStr: 'UInt16' = 'UInt16' as const
+  readonly typeScriptType!: number
+  readonly default?: number
 
-  constructor () {
+  constructor (defaultValue?: number) {
     this.typeStr = 'UInt16'
+    this.default = defaultValue
   }
 
   toString (): string {
@@ -35,6 +41,13 @@ export class ChUInt16 implements ChDataType {
  */
 export class ChUInt32 implements ChDataType {
   readonly typeStr: 'UInt32' = 'UInt32' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'UInt32'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -46,6 +59,13 @@ export class ChUInt32 implements ChDataType {
  */
 export class ChUInt64 implements ChDataType {
   readonly typeStr: 'UInt64' = 'UInt64' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'UInt64'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -57,6 +77,13 @@ export class ChUInt64 implements ChDataType {
  */
 export class ChUInt128 implements ChDataType {
   readonly typeStr: 'UInt128' = 'UInt128' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'UInt128'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -68,6 +95,13 @@ export class ChUInt128 implements ChDataType {
  */
 export class ChUInt256 implements ChDataType {
   readonly typeStr: 'UInt256' = 'UInt256' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'UInt256'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -79,6 +113,13 @@ export class ChUInt256 implements ChDataType {
  */
 export class ChInt8 implements ChDataType {
   readonly typeStr: 'Int8' = 'Int8' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'Int8'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -91,6 +132,13 @@ export class ChInt8 implements ChDataType {
  */
 export class ChInt16 implements ChDataType {
   readonly typeStr: 'Int16' = 'Int16' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'Int16'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -102,6 +150,13 @@ export class ChInt16 implements ChDataType {
  */
 export class ChInt32 implements ChDataType {
   readonly typeStr: 'Int32' = 'Int32' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'Int32'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -113,6 +168,13 @@ export class ChInt32 implements ChDataType {
  */
 export class ChInt64 implements ChDataType {
   readonly typeStr: 'Int64' = 'Int64' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'Int64'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -124,6 +186,13 @@ export class ChInt64 implements ChDataType {
  */
 export class ChInt128 implements ChDataType {
   readonly typeStr: 'Int128' = 'Int128' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'Int128'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -135,6 +204,13 @@ export class ChInt128 implements ChDataType {
  */
 export class ChInt256 implements ChDataType {
   readonly typeStr: 'Int256' = 'Int256' as const
+  readonly typeScriptType!: number
+  readonly default?: number
+
+  constructor (defaultValue?: number) {
+    this.typeStr = 'Int256'
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr

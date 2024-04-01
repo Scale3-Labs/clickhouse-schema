@@ -5,6 +5,12 @@ import { type ChDataType } from '@clickhouse-schema-data-types/index'
  */
 export class ChBoolean implements ChDataType {
   readonly typeStr: 'Boolean' = 'Boolean' as const
+  readonly typeScriptType!: boolean
+  readonly default?: boolean
+
+  constructor (defaultValue?: boolean) {
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr

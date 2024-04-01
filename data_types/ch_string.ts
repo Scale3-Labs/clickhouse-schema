@@ -5,6 +5,12 @@ import { type ChDataType } from '@clickhouse-schema-data-types/index'
  */
 export class ChString implements ChDataType {
   readonly typeStr: 'String' = 'String' as const
+  readonly typeScriptType!: string
+  readonly default?: string
+
+  constructor (defaultValue?: string) {
+    this.default = defaultValue
+  }
 
   toString (): string {
     return this.typeStr
@@ -17,9 +23,12 @@ export class ChString implements ChDataType {
  */
 export class ChFixedString<T extends number> implements ChDataType {
   readonly typeStr: `FixedString(${T})`
+  readonly typeScriptType!: string
+  readonly default?: string
 
-  constructor (readonly length: T) {
+  constructor (readonly length: T, defaultVal?: string) {
     this.typeStr = `FixedString(${length})`
+    this.default = defaultVal
   }
 
   toString (): string {
