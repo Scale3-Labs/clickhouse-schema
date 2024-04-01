@@ -24,35 +24,131 @@ export interface ChDataType {
   toString: () => string
 }
 
-// Integer types unsigned
+/**
+ *
+ * @param df default value of the UInt8
+ * @returns a new ChUInt8 object
+ */
 export const CHUInt8 = <T extends ChUInt8['typeScriptType']> (df?: T): ChUInt8 => new ChUInt8(df)
+/**
+ *
+ * @param df default value of the UInt16
+ * @returns a new ChUInt16 object
+ */
 export const CHUInt16 = <T extends ChUInt16['typeScriptType']> (df?: T): ChUInt16 => new ChUInt16(df)
+/**
+ *
+ * @param df default value of the UInt32
+ * @returns a new ChUInt32 object
+ */
 export const CHUInt32 = <T extends ChUInt32['typeScriptType']> (df?: T): ChUInt32 => new ChUInt32(df)
+/**
+ *
+ * @param df default value of the UInt64
+ * @returns a new ChUInt64 object
+ */
 export const CHUInt64 = <T extends ChUInt64['typeScriptType']> (df?: T): ChUInt64 => new ChUInt64(df)
+/**
+ *
+ * @param df default value of the UInt128
+ * @returns a new ChUInt128 object
+ */
 export const CHUInt128 = <T extends ChUInt128['typeScriptType']> (df?: T): ChUInt128 => new ChUInt128(df)
+/**
+ *
+ * @param df default value of the UInt256
+ * @returns a new ChUInt256 object
+ */
 export const CHUInt256 = <T extends ChUInt256['typeScriptType']> (df?: T): ChUInt256 => new ChUInt256(df)
-// Integer types signed
+/**
+ *
+ * @param df default value of the Int8
+ * @returns a new ChInt8 object
+ */
 export const CHInt8 = <T extends ChInt8['typeScriptType']> (df?: T): ChInt8 => new ChInt8(df)
+/**
+ *
+ * @param df default value of the Int16
+ * @returns a new ChInt16 object
+ */
 export const CHInt16 = <T extends ChInt16['typeScriptType']> (df?: T): ChInt16 => new ChInt16(df)
+/**
+ *
+ * @param df default value of the Int32
+ * @returns a new ChInt32 object
+ */
 export const CHInt32 = <T extends ChInt32['typeScriptType']> (df?: T): ChInt32 => new ChInt32(df)
+/**
+ *
+ * @param df default value of the Int64
+ * @returns a new ChInt64 object
+ */
 export const CHInt64 = <T extends ChInt64['typeScriptType']> (df?: T): ChInt64 => new ChInt64(df)
+/**
+ *
+ * @param df default value of the Int128
+ * @returns a new ChInt128 object
+ */
 export const CHInt128 = <T extends ChInt128['typeScriptType']> (df?: T): ChInt128 => new ChInt128(df)
+/**
+ *
+ * @param df default value of the Int256
+ * @returns a new ChInt256 object
+ */
 export const CHInt256 = <T extends ChInt256['typeScriptType']> (df?: T): ChInt256 => new ChInt256(df)
-// Float types
+/**
+ *
+ * @param df default value of the Float32
+ * @returns a new ChFloat32 object
+ */
 export const CHFloat32 = <T extends ChFloat32['typeScriptType']> (df?: T): ChFloat32 => new ChFloat32(df)
+/**
+ *
+ * @param df default value of the Float64
+ * @returns a new ChFloat64 object
+ */
 export const CHFloat64 = <T extends ChFloat64['typeScriptType']> (df?: T): ChFloat64 => new ChFloat64(df)
-// Boolean type
+/**
+ *
+ * @param df default value of the Boolean
+ * @returns a new ChBoolean object
+ */
 export const CHBoolean = <T extends ChBoolean['typeScriptType']> (df?: T): ChBoolean => new ChBoolean(df)
-// String type
+/**
+ *
+ * @param df default value of the String
+ * @returns a new ChString object
+ */
 export const CHString = <T extends ChString['typeScriptType']> (df?: T): ChString => new ChString(df)
-// UUID type
+/**
+ *
+ * @param df default value of the UUID
+ * @returns a new ChUUID object
+ */
 export const CHUUID = <T extends ChUUID['typeScriptType']> (df?: T): ChUUID => new ChUUID(df)
-// Date types
+/**
+ *
+ * @param df default value of the Date
+ * @returns a new ChDate object
+ */
 export const CHDate = <T extends ChDate['typeScriptType']> (df?: T): ChDate => new ChDate(df)
+/**
+ *
+ * @param df default value of the Date32
+ * @returns a new ChDate32 object
+ */
 export const CHDate32 = <T extends ChDate32['typeScriptType']> (df?: T): ChDate32 => new ChDate32(df)
-
-// IP Address types
+/**
+ *
+ * @param df default value of the IPv4
+ * @returns a new ChIPv4 object
+ */
 export const CHIPv4 = <T extends ChIPv4['typeScriptType']> (df?: T): ChIPv4 => new ChIPv4(df)
+/**
+ *
+ * @param df default value of the IPv6
+ * @returns a new ChIPv6 object
+ */
 export const CHIPv6 = <T extends ChIPv6['typeScriptType']> (df?: T): ChIPv6 => new ChIPv6(df)
 
 /**
