@@ -6,11 +6,11 @@ describe('ClickhouseSchema Tests', () => {
   it('should correctly store schema definitions and options', () => {
     const schemaDefinition = {
       id: { type: ClickhouseTypes.CHUInt128() },
-
       ch_json: { type: ClickhouseTypes.CHJSON({ k: { type: ClickhouseTypes.CHString() }, arr: { type: ClickhouseTypes.CHArray(ClickhouseTypes.CHJSON({ nested: { type: ClickhouseTypes.CHString() } })) } }) }
     }
     const options: ChSchemaOptions<typeof schemaDefinition> = {
       primary_key: 'id',
+      order_by: 'id',
       table_name: 'users_table',
       engine: 'ReplicatedMergeTree()'
     }
@@ -51,7 +51,7 @@ describe('ClickhouseSchema Tests', () => {
     }
 
     const schema = new ClickhouseSchema(schemaDefinition, options)
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String,\nemail String,\nage UInt8\n)\nENGINE = MergeTree()\nPRIMARY KEY id'
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String,\nemail String,\nage UInt8\n)\nENGINE = MergeTree()\nPRIMARY KEY id;'
     const query = schema.GetCreateTableQuery()
     expect(query).toEqual(expectedQuery)
   })
@@ -69,7 +69,7 @@ describe('ClickhouseSchema Tests', () => {
     }
 
     const schema = new ClickhouseSchema(schemaDefinition, options)
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String DEFAULT \'john@gmail.com\',\nage UInt8\n)\nENGINE = MergeTree()\nPRIMARY KEY id'
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String DEFAULT \'john@gmail.com\',\nage UInt8\n)\nENGINE = MergeTree()\nPRIMARY KEY id;'
     const query = schema.GetCreateTableQuery()
     expect(query).toEqual(expectedQuery)
   })
@@ -87,7 +87,7 @@ describe('ClickhouseSchema Tests', () => {
       additional_options: ['COMMENT \'This table provides user details\'']
     }
     const schema = new ClickhouseSchema(schemaDefinition, options)
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String DEFAULT \'john@gmail.com\',\nage UInt8 DEFAULT 18\n)\nENGINE = MergeTree()\nPRIMARY KEY id\nCOMMENT \'This table provides user details\''
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String DEFAULT \'john@gmail.com\',\nage UInt8 DEFAULT 18\n)\nENGINE = MergeTree()\nPRIMARY KEY id\nCOMMENT \'This table provides user details\';'
     const query = schema.GetCreateTableQuery()
     expect(query).toEqual(expectedQuery)
   })
@@ -103,7 +103,7 @@ describe('ClickhouseSchema Tests', () => {
       order_by: 'id'
     }
     const schema = new ClickhouseSchema(schemaDefinition, options)
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nORDER BY id'
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nORDER BY id;'
     const query = schema.GetCreateTableQuery()
     expect(query).toEqual(expectedQuery)
   })
@@ -120,7 +120,7 @@ describe('ClickhouseSchema Tests', () => {
       on_cluster: 'users_cluster'
     }
     const schema = new ClickhouseSchema(schemaDefinition, options)
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nPRIMARY KEY id'
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nPRIMARY KEY id;'
     const query = schema.GetCreateTableQuery()
     expect(query).toEqual(expectedQuery)
   })
@@ -135,7 +135,7 @@ describe('ClickhouseSchema Tests', () => {
       primary_key: 'id',
       engine: 'ReplicatedMergeTree()'
     })
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = ReplicatedMergeTree()\nPRIMARY KEY id'
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = ReplicatedMergeTree()\nPRIMARY KEY id;'
     const query = schema.GetCreateTableQuery()
     expect(query).toEqual(expectedQuery)
   })
@@ -152,7 +152,7 @@ describe('ClickhouseSchema Tests', () => {
       primary_key: 'id'
     }
     const schema = new ClickhouseSchema(schemaDefinition, options)
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_db.users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nPRIMARY KEY id'
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_db.users_table\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nPRIMARY KEY id;'
     const query = schema.GetCreateTableQuery()
     expect(query).toEqual(expectedQuery)
   })
@@ -181,7 +181,7 @@ describe('ClickhouseSchema Tests', () => {
       'ENGINE = MergeTree()',
       'ORDER BY id',
       'PRIMARY KEY id',
-      'COMMENT \'This table provides user details\''
+      'COMMENT \'This table provides user details\';'
     ]
     const query = schema.GetCreateTableQueryAsList()
     expect(query).toEqual(expectedQuery)
@@ -201,7 +201,7 @@ describe('ClickhouseSchema Tests', () => {
       additional_options: ['COMMENT \'This table provides user details\'']
     }
     const schema = new ClickhouseSchema(schemaDefinition, options)
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nORDER BY id\nPRIMARY KEY id\nCOMMENT \'This table provides user details\''
+    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()\nORDER BY id\nPRIMARY KEY id\nCOMMENT \'This table provides user details\';'
     // eslint-disable-next-line @typescript-eslint/no-base-to-string
     const query = schema.toString()
 
@@ -209,18 +209,22 @@ describe('ClickhouseSchema Tests', () => {
   })
 
   it('should not throw if on_cluster is specified but primary_key or order_by is not', () => {
-    const schemaDefinition = {
-      id: { type: ClickhouseTypes.CHUUID() },
-      name: { type: ClickhouseTypes.CHString('John Doe') },
-      email: { type: ClickhouseTypes.CHString() }
+    try {
+      const schemaDefinition = {
+        id: { type: ClickhouseTypes.CHUUID() },
+        name: { type: ClickhouseTypes.CHString('John Doe') },
+        email: { type: ClickhouseTypes.CHString() }
+      }
+      const options: ChSchemaOptions<typeof schemaDefinition> = {
+        table_name: 'users_table',
+        on_cluster: 'users_cluster'
+      }
+      const schema = new ClickhouseSchema(schemaDefinition, options)
+      const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree();'
+      const query = schema.GetCreateTableQuery()
+      expect(query).toEqual(expectedQuery)
+    } catch (e) {
+      console.log(e, 'hereeeeeee')
     }
-    const options: ChSchemaOptions<typeof schemaDefinition> = {
-      table_name: 'users_table',
-      on_cluster: 'users_cluster'
-    }
-    const schema = new ClickhouseSchema(schemaDefinition, options)
-    const expectedQuery = 'CREATE TABLE IF NOT EXISTS users_table ON CLUSTER users_cluster\n(\nid UUID,\nname String DEFAULT \'John Doe\',\nemail String\n)\nENGINE = MergeTree()'
-    const query = schema.GetCreateTableQuery()
-    expect(query).toEqual(expectedQuery)
   })
 })

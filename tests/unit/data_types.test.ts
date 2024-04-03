@@ -87,7 +87,7 @@ describe('Data Types Tests', () => {
       fixedString: { type: ClickhouseTypes.CHFixedString(10) },
       json: { type: ClickhouseTypes.CHJSON({ k: { type: ClickhouseTypes.CHString() } }) }
     }, { array: [''], dateTime: new Date(), dateTime64: new Date(), enum: 'DELETE', fixedString: '', json: { k: '' } })
-    expect(json.toString()).toEqual('JSON')
+    expect(json.toString()).toEqual('Object(\'JSON\')')
   })
 
   it('should correctly create a enum data type with the correct typeStr', () => {

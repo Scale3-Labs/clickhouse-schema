@@ -1,6 +1,15 @@
 import { type ChDataType } from '@clickhouse-schema-data-types/index'
 
-export interface SchemaValue { type: ChDataType }
+type IsType<T, U> = T extends U ? true : false
+
+// Distributive conditional type that checks if T is of any type in union U
+type OmitKeysOfTypes<T extends ChSchemaDefinition, U> = {
+  [K in keyof T as IsType< T[K]['type']['typeStr'], U> extends true ? never : K]: T[K]
+}
+
+export interface SchemaValue {
+  type: ChDataType
+}
 export type ChSchemaDefinition = Record<string, SchemaValue>
 /**
  * ChSchemaOptions is used to define the options for a clickhouse table schema.
@@ -13,20 +22,19 @@ export type ChSchemaDefinition = Record<string, SchemaValue>
  * @param engine is the engine to use for the table, default is MergeTree()
  * @param additional_options is an string array of options that are appended to the end of the create table query
  */
-export interface ChSchemaOptions<T> {
+export interface ChSchemaOptions<T extends ChSchemaDefinition> {
   database?: string
   table_name: string
   on_cluster?: string
-  primary_key?: keyof T
-  order_by?: keyof T
+  primary_key?: keyof OmitKeysOfTypes<T, 'Object(\'JSON\')' >
+  order_by?: keyof OmitKeysOfTypes<T, 'Object(\'JSON\')' >
   engine?: string
   additional_options?: string[]
 }
-
 /**
  * IClickhouseSchema is an interface that represents a clickhouse schema.
  */
-interface IClickhouseSchema<T> {
+interface IClickhouseSchema<T extends ChSchemaDefinition> {
   GetOptions: () => ChSchemaOptions<T>
   GetCreateTableQuery: () => string
   GetCreateTableQueryAsList: () => string[]
@@ -58,7 +66,11 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
     const columns = Object.entries(this.schema as ChSchemaDefinition)
       .map(([name, field]) => {
         // Check if default is defined and a string, add single quotes; otherwise, just use the value
-        return `${name} ${field.type}${field.type.default !== undefined ? ` DEFAULT ${JSON.stringify(field.type.default)}` : ''}`.replace(/"/g, "'")
+        let res = `${name} ${field.type}${field.type.default !== undefined ? ` DEFAULT ${field.type.typeStr === 'Object(\'JSON\')' ? `'${JSON.stringify(field.type.default)}'` : `${JSON.stringify(field.type.default)}`}` : ''}`
+        if (field.type.typeStr !== 'Object(\'JSON\')') {
+          res = res.replace(/"/g, "'")
+        }
+        return res
       }
       )
       .join(',\n')
@@ -76,7 +88,7 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
       additionalOptions
     ].filter(part => part.trim().length > 0).join('\n')
 
-    return createTableQuery
+    return `${createTableQuery};`
   }
 
   /**
