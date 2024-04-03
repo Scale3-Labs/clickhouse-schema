@@ -1,5 +1,11 @@
 # clickhouse-schema
 
+## 2.0.1
+
+### Patch Changes
+
+- 843fc2f: Update readme to reflect release changes
+
 ## 2.0.0
 
 ### Major Changes

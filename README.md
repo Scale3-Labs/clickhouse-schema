@@ -39,12 +39,12 @@ ClickHouse-Schema automates schema creation and ensures type safety with minimal
 
 ``` typescript
 const studentsTableSchema = new ClickhouseSchema({
-  id: { type: CHUInt32 },
-  name: { type: CHString },
-  age: { type: CHUInt8 },
-  height: { type: CHFloat32 },
-  weight: { type: CHFloat64 },
-  isStudent: { type: CHBoolean }
+  id: { type: CHUInt32() },
+  name: { type: CHString() },
+  age: { type: CHUInt8() },
+  height: { type: CHFloat32() },
+  weight: { type: CHFloat64() },
+  isStudent: { type: CHBoolean() }
 }, {
   table_name: 'students',
   primary_key: 'id'
@@ -77,12 +77,12 @@ To start using ClickHouse-Schema in your projects, follow these steps:
 
     // Use types directly or import ClickhouseTypes object to get all the types in one place
     const studentsTableSchema = new ClickhouseSchema({
-      id: { type: CHUInt32 },
-      name: { type: CHString },
-      age: { type: CHUInt8 },
-      height: { type: CHFloat32 },
-      weight: { type: CHFloat64 },
-      isStudent: { type: CHBoolean }
+      id: { type: CHUInt32() },
+      name: { type: CHString() },
+      age: { type: CHUInt8() },
+      height: { type: CHFloat32() },
+      weight: { type: CHFloat64() },
+      isStudent: { type: CHBoolean() }
     }, {
       table_name: 'students',
       primary_key: 'id'
