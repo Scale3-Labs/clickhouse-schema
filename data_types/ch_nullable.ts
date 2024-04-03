@@ -7,10 +7,10 @@ import { type ChPrimitiveType, type ChDataType } from '@clickhouse-schema-data-t
 export class ChNullable<T extends ChPrimitiveType & ChDataType> implements ChDataType {
   readonly typeStr
   readonly innerType: T
-  readonly typeScriptType!: T['typeScriptType']
-  readonly default?: T['typeScriptType']
+  readonly typeScriptType!: T['typeScriptType'] | null
+  readonly default?: T['typeScriptType'] | null
 
-  constructor (t: T, defaultVal?: T['typeScriptType']) {
+  constructor (t: T, defaultVal?: T['typeScriptType'] | null) {
     this.innerType = t
     this.typeStr = `Nullable(${this.innerType.toString()})`
     this.default = defaultVal
