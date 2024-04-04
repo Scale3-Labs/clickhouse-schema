@@ -12,6 +12,7 @@ import { ChNullable } from '@clickhouse-schema-data-types/ch_nullable'
 import { ChFixedString, ChString } from '@clickhouse-schema-data-types/ch_string'
 import { ChUUID } from '@clickhouse-schema-data-types/ch_uuid'
 import { ChUInt8, ChUInt16, ChUInt32, ChUInt64, ChUInt128, ChUInt256, ChInt8, ChInt16, ChInt32, ChInt64, ChInt128, ChInt256 } from '@clickhouse-schema-data-types/ch_integer'
+import { ChMap, type MapKey } from '@clickhouse-schema-data-types/ch_map'
 
 /**
  * ChDataType is an interface that represents a Clickhouse data type
@@ -210,6 +211,16 @@ export const CHLowCardinality = <IN extends ChString | ChFixedString<number>, T 
  */
 export const CHNullable = <IN extends ChPrimitiveType, T extends ChNullable<IN>['typeScriptType']>(type: IN, df?: T): ChNullable<IN> => new ChNullable(type, df)
 
+/**
+ * MapKey is a union type that represents all possible key types for a Clickhouse Map data type
+ */
+
+export const CHMap = <K extends MapKey, V extends ChDataType> (key: K, value: V, defaultValue?: { [key in K['typeScriptType']]: V['typeScriptType'] }): ChMap<K, V> => new ChMap(key, value, defaultValue)
+
+/**
+ * ClickhouseTypes is an object that contains all the Clickhouse data types
+ */
+
 export const ClickhouseTypes = {
   CHUInt8,
   CHUInt16,
@@ -240,7 +251,8 @@ export const ClickhouseTypes = {
   CHArray,
   CHEnum,
   CHLowCardinality,
-  CHNullable
+  CHNullable,
+  CHMap
 }
 
 export type ChPrimitiveType =
@@ -250,4 +262,7 @@ export type ChPrimitiveType =
   ChDate | ChDate32 | ChDateTime<string> | ChDateTime64<number, string> |
   ChUUID | ChFixedString<number> | ChString | ChIPv4 | ChIPv6
 
-export type ChCompositeType = ChArray<ChArray<ChDataType> | ChDataType> | ChEnum<Record<string, number>> | ChNullable<ChPrimitiveType> | ChJSON<ChSchemaDefinition> | ChLowCardinality<ChString | ChFixedString<number>>
+export type ChCompositeType =
+ChArray<ChArray<ChDataType> | ChDataType> | ChEnum<Record<string, number>> |
+ChNullable<ChPrimitiveType> | ChJSON<ChSchemaDefinition> | ChLowCardinality<ChString |
+ChFixedString<number>> | ChMap<MapKey, ChDataType>

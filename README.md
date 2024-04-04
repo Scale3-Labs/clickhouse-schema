@@ -111,5 +111,5 @@ To start using ClickHouse-Schema in your projects, follow these steps:
 - Nullable: `Nullable` type
 - LowCardinality: `LowCardinality` and `Enum` types
 - IP Addresses - `IPv4` and `IPv6`
-
+- Map - `Map` type
 And support for more types is coming!
