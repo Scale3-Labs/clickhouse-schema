@@ -13,7 +13,7 @@ export class ChEnum<T extends Record<string, number>> implements ChDataType {
   constructor (enumObj: T, defaultValue?: keyof T) {
     this.innerType = enumObj
     this.typeStr = this.toString()
-    this.default = defaultValue
+    this.default = defaultValue !== undefined ? `'${defaultValue.toString()}'` : undefined
   }
 
   toString (): string {

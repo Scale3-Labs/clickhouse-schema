@@ -26,7 +26,7 @@ export class ChIPv6 implements ChDataType {
   readonly default?: string
 
   constructor (defaultValue?: string) {
-    this.default = defaultValue
+    this.default = this.default = defaultValue !== undefined ? `'${defaultValue}'` : undefined
   }
 
   toString (): string {

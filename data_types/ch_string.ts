@@ -9,7 +9,7 @@ export class ChString implements ChDataType {
   readonly default?: string
 
   constructor (defaultValue?: string) {
-    this.default = defaultValue
+    this.default = defaultValue !== undefined ? `'${defaultValue}'` : undefined
   }
 
   toString (): string {
@@ -28,7 +28,7 @@ export class ChFixedString<T extends number> implements ChDataType {
 
   constructor (readonly length: T, defaultVal?: string) {
     this.typeStr = `FixedString(${length})`
-    this.default = defaultVal
+    this.default = `'${defaultVal}'`
   }
 
   toString (): string {

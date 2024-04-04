@@ -21,7 +21,9 @@ export class ChMap<K extends MapKey, V extends ChDataType> implements ChDataType
 
   constructor (key: K, value: V, defaultValue?: { [key in K['typeScriptType']]: V['typeScriptType'] }) {
     this.typeStr = `Map(${key.typeStr}, ${value.typeStr})`
-    this.default = defaultValue
+    if (defaultValue !== undefined) {
+      this.default = defaultValue !== undefined ? `map(${Object.entries(defaultValue).map(([key, value]) => `'${key}',${value}`).join(',')})` : undefined
+    }
   }
 
   toString (): string {
