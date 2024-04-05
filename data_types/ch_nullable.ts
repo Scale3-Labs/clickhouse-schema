@@ -13,7 +13,7 @@ export class ChNullable<T extends ChPrimitiveType & ChDataType> implements ChDat
   constructor (t: T, defaultVal?: T['typeScriptType'] | null) {
     this.innerType = t
     this.typeStr = `Nullable(${this.innerType.toString()})`
-    this.default = defaultVal
+    this.default = defaultVal !== undefined ? `${JSON.stringify(defaultVal).replace(/"/g, "'")}` : null
   }
 
   toString (): string {

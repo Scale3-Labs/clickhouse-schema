@@ -13,7 +13,7 @@ export class ChEnum<T extends Record<string, number>> implements ChDataType {
   constructor (enumObj: T, defaultValue?: keyof T) {
     this.innerType = enumObj
     this.typeStr = this.toString()
-    this.default = defaultValue
+    this.default = defaultValue !== undefined ? `'${defaultValue.toString()}'` : undefined
   }
 
   toString (): string {
@@ -30,7 +30,7 @@ export class ChLowCardinality<T extends ChDataType> implements ChDataType {
   readonly default?: T['typeScriptType']
 
   constructor (readonly innerType: T, defaultValue?: T['typeScriptType']) {
-    this.default = defaultValue
+    this.default = defaultValue !== undefined ? `'${defaultValue}'` : undefined
     this.typeStr = `LowCardinality(${innerType.typeStr.toString()})`
   }
 

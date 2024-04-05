@@ -9,7 +9,7 @@ export class ChUUID implements ChDataType {
   readonly default?: string
 
   constructor (defaultValue?: string) {
-    this.default = defaultValue
+    this.default = defaultValue !== undefined ? `'${defaultValue}'` : undefined
   }
 
   toString (): string {

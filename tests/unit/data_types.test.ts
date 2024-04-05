@@ -116,4 +116,9 @@ describe('Data Types Tests', () => {
     expect(ipv4.toString()).toEqual('IPv4')
     expect(ipv6.toString()).toEqual('IPv6')
   })
+
+  it('should correctly create a map data type with the correct typeStr', () => {
+    const map = ClickhouseTypes.CHMap(ClickhouseTypes.CHUInt8(2), ClickhouseTypes.CHString('map'), { 1: 'one', 2: 'two' })
+    expect(map.toString()).toEqual('Map(UInt8, String)')
+  })
 })

@@ -6,6 +6,7 @@ describe('ClickhouseSchema Tests', () => {
   it('should correctly store schema definitions and options', () => {
     const schemaDefinition = {
       id: { type: ClickhouseTypes.CHUInt128() },
+      map: { type: ClickhouseTypes.CHMap(ClickhouseTypes.CHUInt8(), ClickhouseTypes.CHArray(ClickhouseTypes.CHString())) },
       ch_json: { type: ClickhouseTypes.CHJSON({ k: { type: ClickhouseTypes.CHString() }, arr: { type: ClickhouseTypes.CHArray(ClickhouseTypes.CHJSON({ nested: { type: ClickhouseTypes.CHString() } })) } }) }
     }
     const options: ChSchemaOptions<typeof schemaDefinition> = {

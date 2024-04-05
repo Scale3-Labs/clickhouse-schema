@@ -8,10 +8,10 @@ export class ChArray<T extends ChDataType | ChArray<ChDataType>> implements ChDa
   readonly innerType: T
   readonly typeStr: string
   readonly typeScriptType!: Array<T['typeScriptType']>
-  readonly default?: Array<T['typeScriptType']>
+  readonly default?: string
 
   constructor (t: T, defaultVal?: Array<T['typeScriptType']>) {
-    this.default = defaultVal
+    this.default = defaultVal !== undefined ? JSON.stringify(defaultVal).replace(/"/g, "'") : undefined
     if (t instanceof ChArray) {
       this.innerType = new ChArray(t.innerType) as T
     } else {

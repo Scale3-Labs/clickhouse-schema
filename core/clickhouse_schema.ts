@@ -66,11 +66,7 @@ export class ClickhouseSchema<SchemaDefinition extends ChSchemaDefinition> imple
     const columns = Object.entries(this.schema as ChSchemaDefinition)
       .map(([name, field]) => {
         // Check if default is defined and a string, add single quotes; otherwise, just use the value
-        let res = `${name} ${field.type}${field.type.default !== undefined ? ` DEFAULT ${field.type.typeStr === 'Object(\'JSON\')' ? `'${JSON.stringify(field.type.default)}'` : `${JSON.stringify(field.type.default)}`}` : ''}`
-        if (field.type.typeStr !== 'Object(\'JSON\')') {
-          res = res.replace(/"/g, "'")
-        }
-        return res
+        return `${name} ${field.type}${field.type.default !== undefined ? ` DEFAULT ${field.type.default}` : ''}`
       }
       )
       .join(',\n')
