@@ -30,7 +30,7 @@ export class ChLowCardinality<T extends ChDataType> implements ChDataType {
   readonly default?: T['typeScriptType']
 
   constructor (readonly innerType: T, defaultValue?: T['typeScriptType']) {
-    this.default = defaultValue
+    this.default = defaultValue !== undefined ? `'${defaultValue}'` : undefined
     this.typeStr = `LowCardinality(${innerType.typeStr.toString()})`
   }
 
