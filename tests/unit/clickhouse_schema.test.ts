@@ -20,6 +20,8 @@ describe('ClickhouseSchema Tests', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type schemaType = InferClickhouseSchemaType<typeof schema>
     expect(schema.GetOptions()).toEqual(options)
+    // Check that the generated query includes the JSON type
+    expect(schema.GetCreateTableQuery()).toContain('ch_json JSON')
   })
 
   it('should correctly throw an error if schema is missing both primary_key and order_by fields', () => {
@@ -43,7 +45,8 @@ describe('ClickhouseSchema Tests', () => {
       id: { type: ClickhouseTypes.CHUUID() },
       name: { type: ClickhouseTypes.CHString() },
       email: { type: ClickhouseTypes.CHString() },
-      age: { type: ClickhouseTypes.CHUInt8() }
+      age: { type: ClickhouseTypes.CHUInt8() },
+      
     }
     const options: ChSchemaOptions<typeof schemaDefinition> = {
       primary_key: 'id',
@@ -226,5 +229,85 @@ describe('ClickhouseSchema Tests', () => {
     } catch (e) {
       console.log(e, 'hereeeeeee')
     }
+  })
+
+  it('should generate a create table query with CHJSON with options', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.CHUInt128() },
+      ch_json: { type: ClickhouseTypes.CHJSON(
+        { foo: { type: ClickhouseTypes.CHString() } },
+        undefined,
+        {
+          max_dynamic_paths: 2048,
+          max_dynamic_types: 64,
+          pathTypeHints: { 'foo.bar': ClickhouseTypes.CHUInt32(), 'baz': ClickhouseTypes.CHString() },
+          skipPaths: ['secret', 'ignore.me'],
+          skipRegexp: ['private.*', 'tmp.*']
+        }
+      ) }
+    }
+    const options: ChSchemaOptions<typeof schemaDefinition> = {
+      primary_key: 'id',
+      table_name: 'users_table'
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery =
+      "CREATE TABLE IF NOT EXISTS users_table\n(" +
+      "\nid UInt128," +
+      "\nch_json JSON(max_dynamic_paths=2048, max_dynamic_types=64, foo.bar UInt32, baz String, SKIP secret, SKIP ignore.me, SKIP REGEXP 'private.*', SKIP REGEXP 'tmp.*')" +
+      "\n)\nENGINE = MergeTree()\nPRIMARY KEY id;"
+    console.log(schema.GetCreateTableQuery())
+    expect(schema.GetCreateTableQuery()).toEqual(expectedQuery)
+  })
+
+  it('should generate a create table query with CHJSON with legacy type', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.CHUInt128() },
+      ch_json: { type: ClickhouseTypes.CHJSON(
+        { foo: { type: ClickhouseTypes.CHString() } },
+        undefined,
+        { useLegacyJsonType: true }
+      ) }
+    }
+    const options: ChSchemaOptions<typeof schemaDefinition> = {
+      primary_key: 'id',
+      table_name: 'users_table'
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery =
+      "CREATE TABLE IF NOT EXISTS users_table\n(" +
+      "\nid UInt128," +
+      "\nch_json Object('JSON')" +
+      "\n)\nENGINE = MergeTree()\nPRIMARY KEY id;"
+    expect(schema.GetCreateTableQuery()).toEqual(expectedQuery)
+  })
+
+  it('should generate a create table query with CHJSON with legacy type and options (options ignored)', () => {
+    const schemaDefinition = {
+      id: { type: ClickhouseTypes.CHUInt128() },
+      ch_json: { type: ClickhouseTypes.CHJSON(
+        { foo: { type: ClickhouseTypes.CHString() } },
+        undefined,
+        {
+          max_dynamic_paths: 2048,
+          max_dynamic_types: 64,
+          pathTypeHints: { 'foo.bar': ClickhouseTypes.CHUInt32(), 'baz': ClickhouseTypes.CHString() },
+          skipPaths: ['secret', 'ignore.me'],
+          skipRegexp: ['private.*', 'tmp.*'],
+          useLegacyJsonType: true
+        }
+      ) }
+    }
+    const options: ChSchemaOptions<typeof schemaDefinition> = {
+      primary_key: 'id',
+      table_name: 'users_table'
+    }
+    const schema = new ClickhouseSchema(schemaDefinition, options)
+    const expectedQuery =
+      "CREATE TABLE IF NOT EXISTS users_table\n(" +
+      "\nid UInt128," +
+      "\nch_json Object('JSON')" +
+      "\n)\nENGINE = MergeTree()\nPRIMARY KEY id;"
+    expect(schema.GetCreateTableQuery()).toEqual(expectedQuery)
   })
 })
