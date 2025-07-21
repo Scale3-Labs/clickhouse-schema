@@ -5,7 +5,7 @@ import { ChDate, ChDate32, ChDateTime, ChDateTime64 } from '@clickhouse-schema-d
 import { ChDecimal } from '@clickhouse-schema-data-types/ch_decimal'
 import { ChFloat32, ChFloat64 } from '@clickhouse-schema-data-types/ch_float'
 import { ChIPv4, ChIPv6 } from '@clickhouse-schema-data-types/ch_ip_address'
-import { ChJSON } from '@clickhouse-schema-data-types/ch_json'
+import { ChJSON, ChJSONOptions } from '@clickhouse-schema-data-types/ch_json'
 
 import { ChEnum, ChLowCardinality } from '@clickhouse-schema-data-types/ch_low_ cardinality'
 import { ChNullable } from '@clickhouse-schema-data-types/ch_nullable'
@@ -182,9 +182,11 @@ export const CHDateTime64 = <P extends number, TZ extends string, T extends ChDa
 /**
  *
  * @param schema schema definition for the JSON
+ * @param df default value for the JSON
+ * @param options options for the new ClickHouse JSON type
  * @returns a new ChJSON object
  */
-export const CHJSON = <SD extends ChSchemaDefinition, T extends ChJSON<SD>['typeScriptType']>(schema: SD, df?: T): ChJSON<SD> => new ChJSON(schema, df)
+export const CHJSON = <SD extends ChSchemaDefinition, T extends ChJSON<SD>['typeScriptType']>(schema: SD, df?: T, options?: ChJSONOptions): ChJSON<SD> => new ChJSON(schema, df, options)
 /**
  *
  * @param t type of the array

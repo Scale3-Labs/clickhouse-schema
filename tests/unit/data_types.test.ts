@@ -87,7 +87,53 @@ describe('Data Types Tests', () => {
       fixedString: { type: ClickhouseTypes.CHFixedString(10) },
       json: { type: ClickhouseTypes.CHJSON({ k: { type: ClickhouseTypes.CHString() } }) }
     }, { array: [''], dateTime: new Date(), dateTime64: new Date(), enum: 'DELETE', fixedString: '', json: { k: '' } })
-    expect(json.toString()).toEqual('Object(\'JSON\')')
+    expect(json.toString()).toEqual('JSON')
+    expect(json.typeStr).toBe('JSON')
+  })
+
+  it('should create a json data type with options and generate correct SQL', () => {
+    const json = ClickhouseTypes.CHJSON(
+      { foo: { type: ClickhouseTypes.CHString() } },
+      undefined,
+      {
+        max_dynamic_paths: 2048,
+        max_dynamic_types: 64,
+        pathTypeHints: { 'foo.bar': ClickhouseTypes.CHUInt32(), 'baz': ClickhouseTypes.CHString() },
+        skipPaths: ['secret', 'ignore.me'],
+        skipRegexp: ['private.*', 'tmp.*']
+      }
+    )
+    expect(json.toString()).toBe(
+      "JSON(max_dynamic_paths=2048, max_dynamic_types=64, foo.bar UInt32, baz String, SKIP secret, SKIP ignore.me, SKIP REGEXP 'private.*', SKIP REGEXP 'tmp.*')"
+    )
+    expect(json.typeStr).toBe('JSON')
+  })
+
+  it('should create a legacy json data type when useLegacyJsonType is true', () => {
+    const json = ClickhouseTypes.CHJSON(
+      { foo: { type: ClickhouseTypes.CHString() } },
+      undefined,
+      { useLegacyJsonType: true }
+    )
+    expect(json.toString()).toBe("Object('JSON')")
+    expect(json.typeStr).toBe("Object('JSON')")
+  })
+
+  it('should create a legacy json data type with options but always return Object(\'JSON\')', () => {
+    const json = ClickhouseTypes.CHJSON(
+      { foo: { type: ClickhouseTypes.CHString() } },
+      undefined,
+      {
+        max_dynamic_paths: 2048,
+        max_dynamic_types: 64,
+        pathTypeHints: { 'foo.bar': ClickhouseTypes.CHUInt32(), 'baz': ClickhouseTypes.CHString() },
+        skipPaths: ['secret', 'ignore.me'],
+        skipRegexp: ['private.*', 'tmp.*'],
+        useLegacyJsonType: true
+      }
+    )
+    expect(json.toString()).toBe("Object('JSON')")
+    expect(json.typeStr).toBe("Object('JSON')")
   })
 
   it('should correctly create a enum data type with the correct typeStr', () => {

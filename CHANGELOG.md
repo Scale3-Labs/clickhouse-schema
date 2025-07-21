@@ -1,5 +1,11 @@
 # clickhouse-schema
 
+## 3.0.0
+
+### Major Changes
+
+- # clickhouse-schema## 3.0.0### Major Changes- **Breaking:** The `CHJSON` type now uses the new ClickHouse `JSON` type by default (production ready in ClickHouse 25.3+). This may break existing code that expects the legacy `Object('JSON')` type or the old API for path hints.- **Legacy Support:** You can opt-in to the legacy `Object('JSON')` type by passing `{ useLegacyJsonType: true }` in the options to `CHJSON`. All other options are ignored in legacy mode.- **Advanced Options:** The new `CHJSON` type supports advanced options: - `max_dynamic_paths`, `max_dynamic_types` - `pathTypeHints` (now type-safe, expects a mapping to `ChDataType`) - `skipPaths`, `skipRegexp`- **ClickHouse Compatibility:** If you see an error about experimental JSON type, set `SET allow_experimental_json_type = 1` in your ClickHouse server/session, or upgrade to ClickHouse 25.3+ where this is not required.
+
 ## 2.0.1
 
 ### Patch Changes
